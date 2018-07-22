@@ -1,0 +1,12 @@
+{
+	"name":"Shop",
+	"version":"1.2.0",
+	"description":"A basic ecommerce package.",
+	"url":"gilacms.com",
+	"options": {
+		"currency": {
+			"type":"select",
+			"options": {"EUR":"Euro", "USD":"US Dollars","MXN":"Mexican Pesos"}
+		}
+	}
+}
