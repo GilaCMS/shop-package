@@ -7,7 +7,8 @@ $slug = 'assets/products/'.$slugify->slugify($p['title']);
 
 <style>
 #imgZoom{
-    margin:auto
+    margin:auto;
+    max-height: 600px;
 }
 #overlay{
   width:300px;
@@ -23,6 +24,7 @@ $slug = 'assets/products/'.$slugify->slugify($p['title']);
 }
 .thumbs>img.tmb-selected{
     border:2px solid steelblue;
+    max-height: 160px;
 }
 .product-view {
     display:grid;
@@ -38,6 +40,7 @@ $slug = 'assets/products/'.$slugify->slugify($p['title']);
 .product-img .thumbs img{
     max-width: 60px;
 }
+
 #overlay {
     visibility: hidden;
 }
@@ -49,9 +52,6 @@ $slug = 'assets/products/'.$slugify->slugify($p['title']);
     .product-img .thumbs img{
         max-width: 100px;
     }
-    #overlay {
-        visibility: visible;
-    }
 }
 @media (min-width:900px) {
     .product-view {
@@ -59,6 +59,9 @@ $slug = 'assets/products/'.$slugify->slugify($p['title']);
     }
     .product-img {
         grid-template-columns: 100px 1fr;
+    }
+    #overlay {
+        visibility: visible;
     }
 }
 

@@ -103,13 +103,12 @@ $slugify = new Cocur\Slugify\Slugify();
 
 foreach ($products as $p) {
     $slug = $slugify->slugify($p['title']);
-    $thumb = $p['image'].'_sm.jpg';
     $href=gila::make_url('shop','product',['id'=>$p['id'],'slug'=>$slug]);
     ?>
     <div class="product">
         <div class="product-body">
             <a href="<?=$href?>" class="thumb">
-                <img data-src="<?=view::thumb_sm($p['image'],$thumb)?>" class="lazy img-responsive" alt="Image">
+                <img data-src="<?=view::thumb_sm($p['image'])?>" class="lazy img-responsive" alt="Image">
             </a>
             <div class="product-title"><?=$p['title']?></div>
             <div class="product-price">$ <?=$p['price']?></div>
