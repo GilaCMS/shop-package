@@ -46,9 +46,10 @@
 	display: inline-block;
 	vertical-align: top;
     background: white;
+    text-align:center;
 }
 .product img{
-    width:100%;
+    max-width:100%;
     max-height:220px;
     height: auto;
     margin:auto;

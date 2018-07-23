@@ -57,8 +57,8 @@ foreach ($product as $kid=>$p) {
     </div>
     <div style="text-align:right">
         <br>
-        <a class="gm-2 btn btn-white" href="<?=gila::url("shop/address")?>"><?=__("continue_shopping")?></a>
-        <a class="gm-2 btn btn-primary" href="<?=gila::url("shop/address")?>"><?=__("continue")?></a>
+        <a class="btn btn-white" href="<?=gila::url("shop/address")?>"><?=__("continue_shopping")?></a>
+        <a class="btn btn-primary" href="<?=gila::url("shop/address")?>"><?=__("continue_to_checkout")?></a>
     </div>
 </form>
 </div>

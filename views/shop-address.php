@@ -83,7 +83,7 @@ label {margin-top:15px}
     </div>
     <input name="submit_address" type="hidden">
     <div class="gm-12" style="text-align:right">
-        <br><input class="gm-4 g-btn btn-primary" id="checkout_btn" type="submit" value="<?=__('Checkout')?>">
+        <br><input class="g-btn btn-primary" id="checkout_btn" type="submit" value="<?=__('continue_to_checkout')?>">
     </div>
 </form>
 </div>
