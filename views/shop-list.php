@@ -111,7 +111,7 @@ foreach ($products as $p) {
                 <img data-src="<?=view::thumb_sm($p['image'])?>" class="lazy img-responsive" alt="Image">
             </a>
             <div class="product-title"><?=$p['title']?></div>
-            <div class="product-price">$ <?=$p['price']?></div>
+            <div class="product-price"><?=$p['price']?> <?=gila::option('shop.currency')?></div>
         </div>
         <div class="product-footer"><a class="g-btn" href="<?=$href?>"><?=__('Details')?></a></div>
     </div>
