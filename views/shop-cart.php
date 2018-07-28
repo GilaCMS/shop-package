@@ -25,19 +25,17 @@
             <th><?=__("Units")?>
             <th><?=__("Total")?>
 <?php
-$slugify = new Cocur\Slugify\Slugify();
 $total = 0;
 $currency = gila::option('shop.currency',' EUR');
 
 foreach ($product as $kid=>$p) {
-    $slug = $slugify->slugify($p['title']);
-    $imgslug = 'assets/products/'.$slug.'0.jpg';
+    $imgsrc = view::thumb_sm($p['image']);
     $total += $p['qty']*$p['price'];
     $tdprice = $p['price'].'&nbsp;'.$currency;
 ?>
         <tr>
             <td><a class="removebtn g-btn btn-white" href="<?=gila::make_url("shop","cart")."?remove=".$p['id']?>"><i class="fa fa-remove"></i></a>
-            <td style="max-width:100px;"><img src="<?=$imgslug?>" style="max-height:120px;vertical-align:middle" />
+            <td style="max-width:100px;"><img src="<?=$imgsrc?>" style="max-height:120px;vertical-align:middle" />
                 <span><a href="shop/product/<?=$p['id']?>/<?=$slug?>"><?=$p['title']?></a></span>
             <td><?=$tdprice?>
             <td>
