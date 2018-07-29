@@ -2,9 +2,14 @@
 global $db;
 $slugify = new Cocur\Slugify\Slugify();
 $slug = 'assets/products/'.$slugify->slugify($p['title']);
-
 ?>
+
 <?php view::css("src/shop/assets/shop.css");?>
+<style>
+#overlay{
+  background-image:url('<?=$p['image']?>');
+}
+</style>
 
 <div class="product-view wrapper">
 

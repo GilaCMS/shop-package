@@ -102,9 +102,8 @@
   height:300px;
   position:absolute;
   display:none;
-  background-image:url('<?=$p['image']?>');
   background-repeat:no-repeat;
-  z-index:99999;
+  z-index:999999;
 }
 .thumbs>img{
     border:2px solid rgba(1,1,1,0.1);
