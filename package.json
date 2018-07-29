@@ -8,5 +8,8 @@
 			"type":"select",
 			"options": {"EUR":"Euro", "USD":"US Dollars","MXN":"Mexican Pesos"}
 		}
+	},
+	"require": {
+		"core":"1.7.4"
 	}
 }

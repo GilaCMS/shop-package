@@ -10,6 +10,7 @@ class shopController extends controller
 
     function __construct()
     {
+        router::cache(600,[shop::cartTotal()]);
         $this->addlist = ['receiver','address','reference','shipping_method','pc','city','phone','email'];
 
         if($_SERVER['REQUEST_METHOD'] === 'POST') if(isset($_POST['submit_address'])) {

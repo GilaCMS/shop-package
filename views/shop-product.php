@@ -4,68 +4,7 @@ $slugify = new Cocur\Slugify\Slugify();
 $slug = 'assets/products/'.$slugify->slugify($p['title']);
 
 ?>
-
-<style>
-#imgZoom{
-    margin:auto;
-    max-height: 600px;
-}
-#overlay{
-  width:300px;
-  height:300px;
-  position:absolute;
-  display:none;
-  background-image:url('<?=$p['image']?>');
-  background-repeat:no-repeat;
-  z-index:99999;
-}
-.thumbs>img{
-    border:2px solid rgba(1,1,1,0.1);
-}
-.thumbs>img.tmb-selected{
-    border:2px solid steelblue;
-    max-height: 160px;
-}
-.product-view {
-    display:grid;
-    grid-gap:20px;
-    background:white;
-    grid-template-columns: 1fr;
-}
-.product-img {
-    display:grid;
-    grid-gap:20px;
-    grid-template-columns: 1fr;
-}
-.product-img .thumbs img{
-    max-width: 60px;
-}
-
-#overlay {
-    visibility: hidden;
-}
-
-@media (min-width:600px) {
-    .product-img {
-        grid-template-columns: 80px 1fr;
-    }
-    .product-img .thumbs img{
-        max-width: 100px;
-    }
-}
-@media (min-width:900px) {
-    .product-view {
-        grid-template-columns: 6fr 4fr;
-    }
-    .product-img {
-        grid-template-columns: 100px 1fr;
-    }
-    #overlay {
-        visibility: visible;
-    }
-}
-
-</style>
+<?php view::css("src/shop/assets/shop.css");?>
 
 <div class="product-view wrapper">
 
