@@ -1,6 +1,6 @@
 <?php
 
-echo __('Your order # is');
+echo __('_order_id_is');
 echo ': '.$order_id.'<br><br>';
 
 echo __('_shop_detail_email_').'<br><br>';
