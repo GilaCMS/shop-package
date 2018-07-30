@@ -36,6 +36,7 @@ label {margin-top:15px}
 
 <div class="col-md-12">
 <div class="col-sm-10 col-sm-offset-1 col-sm-12 wrapper" style="background:white">
+    <h2><?=__('your_data')?></h2>
 <form id="addressSelect" name="addressSelect" method="post" action="<?=gila::make_url("shop","checkout")?>" class="g-card wrapper">
     <div class="row">
         <div class="col-md-6 gm-6">

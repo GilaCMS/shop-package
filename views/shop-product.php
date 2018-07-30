@@ -27,7 +27,7 @@ $slug = 'assets/products/'.$slugify->slugify($p['title']);
     <div class="">
         <div id="overlay"></div>
         <h2 style="color:#004c98"><?=$p['title']?><h2>
-        <h2>$ <?=$p['price']?><h2>
+        <h2><?=$p['price']?>&nbsp;<?=gila::option('shop.currency')?><h2>
         <form action="shop/cart" method="get">
             <input name="add" value="<?=$p['id']?>" type="hidden"/>
             <input name="qty" class="g-input" value="1" type="number" size="2" style="width:70px"/>

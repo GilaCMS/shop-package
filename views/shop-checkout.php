@@ -35,7 +35,7 @@
 label{font-weight:bold;}
 </style>
 
-<div id="checkout-content" class="row">
+<div id="checkout-content" class="">
 
 <div class="gl-4"><span class="cc-title"><i class="fa fa-map-marker"></i> <?=__('your_data')?></span>
 
@@ -62,12 +62,12 @@ $total = 0;
 $delivery_cost = $g->shipping_methods[$add_shipping_method]['cost'];
 
 foreach ($product as $kid=>$p) {
-    $slug = 'assets/products/'.$slugify->slugify($p['title']).'0.jpg';
+    $imgsrc = view::thumb_sm($p['image']);
     $addurl = gila::url("shop/cart")."?add={$p['id']}&qty=";
     $total += $p['qty']*$p['price'];
 ?>
         <tr>
-            <td style="width:80px"><img src="<?=$slug?>" style="max-height:120px;width:100%;" />
+            <td style="width:80px"><img src="<?=$imgsrc?>" style="max-height:120px;width:100%;" />
             <td><?=$p['qty']?> x <?=$p['title']?>
             <td><?=($p['qty']*$p['price'])?>&nbsp;<?=gila::option('shop.currency')?>
 

@@ -16,6 +16,7 @@
 </style>
 
 <div class="wrapper" style="background:white">
+    <h2><?=__('Cart')?></h2>
     <form id="reviewCart" action="<?=gila::url("shop/cart")?>" method="post">
     <table class="g-table bordered cart-table" >
         <tr>
@@ -51,12 +52,12 @@ foreach ($product as $kid=>$p) {
     </table>
     <hr>
     <div style="text-align:right">
-        <input type="submit" class=" g-btn btn-white" type="button" value="<?=__("Update Cart")?>">
+        <input type="submit" class="g-btn btn-white" type="button" value="<?=__("Update Cart")?>">
     </div>
     <div style="text-align:right">
         <br>
-        <a class="btn btn-white" href="<?=gila::url("shop/address")?>"><?=__("Continue Shopping")?></a>
-        <a class="btn btn-primary" href="<?=gila::url("shop/address")?>"><?=__("continue_to_checkout")?></a>
+        <a class="g-btn btn-white" href="<?=gila::url("shop/address")?>"><?=__("Continue Shopping")?></a>
+        <a class="g-btn btn-primary" href="<?=gila::url("shop/address")?>"><?=__("continue_to_checkout")?></a>
     </div>
 </form>
 </div>
