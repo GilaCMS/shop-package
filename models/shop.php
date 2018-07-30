@@ -70,7 +70,7 @@ class shop
         if($cart == []) \session::unsetKey('cart');
     }
 
-    static function placeOrder($args)
+    static function placeOrder($args,$cart)
     {
         global $db;
         $user_id = \session::user_id();
@@ -88,8 +88,22 @@ class shop
             exit;
         }
 
+        $cart_id = $db->insert_id;
+
+        foreach ($cart as $k=>$qty) {
+            $res = $db->query("SELECT id,title,price FROM shop_product WHERE id=?",[$k]);
+
+            if($product = mysqli_fetch_array($res)) {
+                $db->query("INSERT INTO shop_orderitem(`product_id`,`description`,`order_id`,`qty`,`cost`)
+                SELECT id,title,'{$cart_id}',{$qty},price FROM shop_product WHERE id=?;",[$k]);
+            } else {
+                //error
+            }
+        }
+
+
         \session::unsetKey('cart');
-        return $db->insert_id;
+        return $cart_id;
     }
 
     static function getProducts($args) {

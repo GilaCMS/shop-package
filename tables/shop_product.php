@@ -24,7 +24,7 @@ $table = [
         'image2'=> ['type'=>'media', 'list'=> false],
         'image3'=> ['type'=>'media', 'list'=> false],
         'image4'=> ['type'=>'media', 'list'=> false],
-        'title'=> [],
+        'title'=> ['qtype'=>'VARCHAR(120)'],
         'description'=> ['list'=> false,'qtype'=>'TEXT'],
         'price'=> [],
         'categories'=> [

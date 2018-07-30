@@ -168,76 +168,12 @@ class shopController extends controller
             $data[$d] = session::key('delivery_'.$d);
         }
 
-        $order_id = shop::placeOrder($data);
+        $order_id = shop::placeOrder($data,$this->cart);
 
         if(event::fire('shop::pay',$order_id)) exit;
 
         view::set('order_id',$order_id);
         view::render('shop-placedorder.php','shop');
-    }
-
-    function payAction_ ()
-    {
-        global $db,$g;
-
-        if($this->cart==null) {
-            echo "<meta http-equiv=\"refresh\" content=\"0,url=".gila::config('base')."\" />";
-            return;
-        }
-
-        $data=[];
-
-        foreach($this->addlist as $d) {
-            $data[] = session::key('delivery_'.$d);
-        }
-
-        $db->query("INSERT INTO `shop_order`(`user_id`,`add_receiver`,`add_address`,`add_reference`,`add_shipping_method`,`add_pc`,`add_city`,`add_phone`,`add_email`)
-        VALUES(0,?,?,?,?,?,?,?,?);",$data);
-
-        $this->cart_id = $db->insert_id;
-        $total_price = 0;
-
-        $mp_data = [];
-        $mp_data['items'] = [];
-        foreach ($this->cart as $k=>$pid) {
-            $res = $db->query("SELECT id,title,price FROM shop_product WHERE id=?",[$k]);
-
-            if($product = mysqli_fetch_array($res)) {
-                $db->query("INSERT INTO shop_orderitem(`product_id`,`order_id`,`qty`,`cost`)
-                VALUES(?,?,?,?);",[$k, $this->cart_id, $pid, $product[2]]);
-                /*$mp_data['items'][] = [
-                    'title'=>$product[1],
-                    'quantity'=>(int)$pid,
-                    'currency_id' => "MXN",
-                    'unit_price'=>$product[2]
-                ];*/
-                $total_price += (int)$pid * $product[2];
-            } else {
-                //error
-            }
-        }
-
-        $shipping_method = session::key('delivery_shipping_method');
-        $delivery_cost = shop::shipping_methods()[$shipping_method]['cost'];
-        $total_price += $delivery_cost;
-
-        $mp_data['items'][] = [
-            'title'=> "Order #".$this->cart_id,
-            'quantity'=> 1,
-            'currency_id' => "MXN",
-            'unit_price'=> $total_price
-        ];
-
-        session::unsetKey('cart');
-
-        require_once __DIR__.'/../meli/mercadopago.php';
-        $mp = new MP ('5093451076745206', 'Hl8vRgOYcPcH7f4xYjzw398llBNTk0vw');
-
-        $response = $mp->create_preference($mp_data);
-        //file_put_contents(__DIR__."/response.txt",json_encode($response));
-        $this->cart_pay_url = $response['response']['init_point'];
-        session::define(['cart_pay_url'=>$this->cart_pay_url]);
-        echo "<meta http-equiv=\"refresh\" content=\"0,url=".$this->cart_pay_url."\">";
     }
 
     function pageAction ()
@@ -263,7 +199,5 @@ class shopController extends controller
         }
         echo "ok";
     }
-
-
 
 }
