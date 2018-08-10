@@ -20,6 +20,7 @@ foreach ($products as $p) {
             </a>
             <div class="product-title"><?=$p['title']?></div>
             <div class="product-price"><?=$p['price']?> <?=gila::option('shop.currency')?></div>
+            <?=(@$p['old_price']>$p['price'])?'<del>'.$p['old_price'].'</del>':''?>
         </div>
         <div class="product-footer"><a class="g-btn" href="<?=$href?>"><?=__('Details')?></a></div>
     </div>

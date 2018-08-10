@@ -10,7 +10,7 @@ class shopController extends controller
 
     function __construct()
     {
-        //if(session::user_id()==0) router::cache(3600,[shop::cartTotal()]);
+        if(session::user_id()==0) router::cache(3600,[shop::cartTotal()]);
         $this->addlist = ['receiver','address','reference','shipping_method','pc','city','phone','email'];
 
         if($_SERVER['REQUEST_METHOD'] === 'POST') if(isset($_POST['submit_address'])) {
@@ -33,6 +33,7 @@ class shopController extends controller
     {
         global $db;
         $c = router::get('category',1);
+
         $search = router::get('search');
         $page = router::get('page');
         if($page==null) $page=1;
@@ -45,6 +46,8 @@ class shopController extends controller
             $category_name = $db->value("SELECT title FROM shop_category WHERE id=?;",$c);
             view::set('category_name', $category_name);
             view::set('page_title', $category_name);
+            session::key('category',$c);
+            session::key('category_name',$category_name);
         }
 
         $products = shop::getProducts(['c'=>$c,'page'=>$page,'search'=>$search]);
@@ -59,12 +62,12 @@ class shopController extends controller
 
     function productAction ()
     {
-        global $db;
         $id = router::get('product_id',1);
         $id = explode('-',$id)[0];
-        $p = $db->query("SELECT * FROM shop_product WHERE id=?;",$id);
-        $p = mysqli_fetch_array($p);
+        $p = shop::getProductById($id);
+        $categories = shop::getProductMeta($id,'category');
         view::set('p',$p);
+        view::set('categories',$categories);
         view::set('page_title',$p['title']);
         view::meta('og:title',$p['title']);
         view::meta('og:type','product.item');

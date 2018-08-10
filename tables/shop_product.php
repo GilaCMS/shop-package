@@ -19,14 +19,17 @@ $table = [
         'id'=> ['edit'=>false],
         'image'=> [
             'type'=>'media',
-            'eval'=>'dv="<img style=\"max-width:100px;max-height:120px;\" src=\""+cv+"\">"'
+            'qtype'=>'VARCHAR(120)',
+            'eval'=>'dv="<img style=\"max-width:100px;max-height:120px;\" src=\""+cv+"\">"',
+            'display'=>'"<img style=\"max-width:100px;max-height:120px;\" src=\""+cv+"\">"'
         ],
-        'image2'=> ['type'=>'media', 'list'=> false],
-        'image3'=> ['type'=>'media', 'list'=> false],
-        'image4'=> ['type'=>'media', 'list'=> false],
+        'image2'=> ['type'=>'media', 'qtype'=>'VARCHAR(120)', 'list'=> false],
+        'image3'=> ['type'=>'media', 'qtype'=>'VARCHAR(120)', 'list'=> false],
+        'image4'=> ['type'=>'media', 'qtype'=>'VARCHAR(120)', 'list'=> false],
         'title'=> ['qtype'=>'VARCHAR(120)'],
         'description'=> ['list'=> false,'qtype'=>'TEXT'],
-        'price'=> [],
+        'price'=> ['qtype'=>'DOUBLE DEFAULT 0'],
+        'old_price'=> ['qtype'=>'DOUBLE DEFAULT 0', 'list'=> false, 'create'=> false],
         'categories'=> [
             'type'=> 'meta',
             'title'=> 'Categories',

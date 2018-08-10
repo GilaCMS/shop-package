@@ -106,6 +106,17 @@ class shop
         return $cart_id;
     }
 
+    static function getProductMeta($id,$meta) {
+        global $db;
+        return $db->getList("SELECT metavalue FROM shop_productmeta WHERE product_id=? AND metakey=?;",[$id,$meta]);
+    }
+
+    static function getProductById($id) {
+        global $db;
+        $p = $db->query("SELECT id,image,image2,image3,image4,title,description,price,old_price FROM shop_product WHERE id=?;",[$id]);
+        return mysqli_fetch_array($p);
+    }
+
     static function getProducts($args) {
         global $db;
         $limit = "LIMIT ".(($args['page']-1)*16).",16";
@@ -124,7 +135,7 @@ class shop
         }
 
         $totalpages = (int)$db->value("SELECT COUNT(*)/16 FROM shop_product $where;")+1;
-        $ql = "SELECT shop_product.id,image,title,price FROM shop_product,shop_productmeta $where GROUP BY shop_product.id ORDER BY shop_product.id DESC $limit;";
+        $ql = "SELECT shop_product.id,image,title,price, old_price FROM shop_product,shop_productmeta $where GROUP BY id ORDER BY id DESC $limit;";
         return [$db->get($ql),$totalpages];
     }
 

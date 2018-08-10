@@ -11,8 +11,16 @@ $slug = 'assets/products/'.$slugify->slugify($p['title']);
 }
 </style>
 
-<div class="product-view wrapper">
+<span>
+    <a href="<?=gila::make_url('shop')?>"><?=__('Home')?></a>
+<?php if(($sess_c = session::key('category')) && in_array($sess_c,$categories)) {
+    $cat_name = session::key('category_name'); ?>
+    \ <a href="<?=gila::make_url('shop','',['category'=>$sess_c,'slug'=>$slugify->slugify($cat_name)])?>"><?=$cat_name?></a>
+<?php } ?>
+    \ <strong><?=$p['title']?></strong>
+</span>
 
+<div class="product-view wrapper">
 
     <div class="product-img" style="text-align:center;height:100%">
         <div class="thumbs">
@@ -27,6 +35,7 @@ $slug = 'assets/products/'.$slugify->slugify($p['title']);
     <div class="">
         <div id="overlay"></div>
         <h2 style="color:#004c98"><?=$p['title']?><h2>
+        <?=(@$p['old_price']>$p['price'])?'<del style="font-size:80%;color:grey">'.$p['old_price'].' '.gila::option('shop.currency').'</del> &nbsp;-'.floor(100-100*$p['price']/$p['old_price']).'%':''?>
         <h2><?=$p['price']?>&nbsp;<?=gila::option('shop.currency')?><h2>
         <form action="shop/cart" method="get">
             <input name="add" value="<?=$p['id']?>" type="hidden"/>

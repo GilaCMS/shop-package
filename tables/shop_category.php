@@ -11,12 +11,13 @@ $table = [
     //'csv'=> ['id','name','email'],
     'fields'=> [
         'id'=> ['edit'=>false],
-        'title'=> [],
-        'description'=> [],
+        'title'=> ['qtype'=>'VARCHAR(120)'],
+        'description'=> ['qtype'=>'TEXT'],
         'parent_id'=> [
             'options'=>[0=>'-'],
             'qoptions'=> 'SELECT id, title FROM shop_category;',
-            'list'=>false
+            'list'=>false,
+            'qtype'=>'INT'
         ],
     ]
 ];
