@@ -8,6 +8,7 @@ $table = [
     'commands'=>['edit','clone','delete'],
     'bulk_actions'=> true,
     'search-box'=> true,
+    'lang'=> 'shop/lang/',
     'id'=>'id',
     'permissions'=>[
         'create'=>['admin','op_shop'],
@@ -16,7 +17,7 @@ $table = [
         'delete'=>['admin','op_shop']
     ],
     'fields'=> [
-        'id'=> ['edit'=>false],
+        'id'=> ['title'=>'#','edit'=>false],
         'image'=> [
             'type'=>'media',
             'qtype'=>'VARCHAR(120)',
@@ -26,9 +27,9 @@ $table = [
         'image2'=> ['type'=>'media', 'qtype'=>'VARCHAR(120)', 'list'=> false],
         'image3'=> ['type'=>'media', 'qtype'=>'VARCHAR(120)', 'list'=> false],
         'image4'=> ['type'=>'media', 'qtype'=>'VARCHAR(120)', 'list'=> false],
-        'title'=> ['qtype'=>'VARCHAR(120)'],
+        'title'=> ['title'=>'Title','qtype'=>'VARCHAR(120)'],
         'description'=> ['list'=> false,'qtype'=>'TEXT'],
-        'price'=> ['qtype'=>'DOUBLE DEFAULT 0'],
+        'price'=> ['title'=>'Price','qtype'=>'DOUBLE DEFAULT 0'],
         'old_price'=> ['qtype'=>'DOUBLE DEFAULT 0', 'list'=> false, 'create'=> false],
         'categories'=> [
             'type'=> 'meta',

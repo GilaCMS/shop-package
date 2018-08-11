@@ -3,21 +3,24 @@
 $table = [
     'name'=> 'shop_orderitem',
     'title'=> 'OrderItems',
-    'pagination'=> 30,
-    'tools'=>['add','csv'],
-    'commands'=>['edit','delete'],
-    'bulk_actions'=> true,
-    'search-box'=> true,
+    'lang'=> 'shop/lang/',
     'id'=>'id',
     'fields'=> [
-        'id'=> ['edit'=>false,'qtype'=>'INT NOT NULL AUTO_INCREMENT'],
-        'order_id'=> ['edit'=>false,'qtype'=>'INT(4)'],
+        'id'=> ['edit'=>false,'list'=>false,'qtype'=>'INT NOT NULL AUTO_INCREMENT'],
+        'order_id'=> ['edit'=>false,'list'=>false,'qtype'=>'INT(4)'],
+        'image'=> [
+            'edit'=>false,'title'=>'',
+            'qcolumn'=>'(SELECT image FROM shop_product sp WHERE product_id=sp.id)',
+            'eval'=>'dv="<img style=\"max-width:100px;max-height:120px;\" src=\""+cv+"\">"',
+            'display'=>'"<img style=\"max-width:100px;max-height:120px;\" src=\""+cv+"\">"'
+        ],
         'product_id'=> [
             'title'=>'Product',
-            'qcolumn'=>"(SELECT CONCAT(id,' ',title) from shop_product where id=product_id)"
+            'eval'=>'dv="<a target=\"_blank\" href=\"shop/product/"+cv+"\">"+cv+"</a>"',
+            //'qcolumn'=>"(SELECT CONCAT(id,' ',title) from shop_product where id=product_id)"
         ],
         'description'=> ['qtype'=>'VARCHAR(120)'],
-        'qty'=> ['qtype'=>'DOUBLE NOT NULL DEFAULT 0'],
-        'cost'=> ['qtype'=>'DOUBLE NOT NULL DEFAULT 0']
+        'qty'=> ['title'=>'Units','qtype'=>'DOUBLE NOT NULL DEFAULT 0'],
+        'cost'=> ['title'=>'Price','qtype'=>'DOUBLE NOT NULL DEFAULT 0']
     ]
 ];

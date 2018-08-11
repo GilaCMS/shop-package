@@ -70,6 +70,13 @@ class shop
         if($cart == []) \session::unsetKey('cart');
     }
 
+    static function getOrderById($id)
+    {
+        global $db;
+        $p = $db->query("SELECT id,`user_id`,`add_receiver`,`add_address`,`add_reference`,`add_shipping_method`,`add_pc`,`add_city`,`add_phone`,`add_email` FROM shop_order WHERE id=?;",[$id]);
+        return mysqli_fetch_array($p);
+    }
+
     static function placeOrder($args,$cart)
     {
         global $db;

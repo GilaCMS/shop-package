@@ -8,7 +8,7 @@ $table = [
     'commands'=>['edit','delete'],
     'bulk_actions'=> true,
     'id'=>'id',
-    //'csv'=> ['id','name','email'],
+    'lang'=> 'shop/lang/',
     'fields'=> [
         'id'=> ['edit'=>false],
         'title'=> ['qtype'=>'VARCHAR(120)'],

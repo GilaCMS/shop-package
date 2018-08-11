@@ -85,28 +85,11 @@ class shopController extends controller
         view::render('shop-product.php','shop');
     }
 
-    function edit_productsAction ()
+    function view_orderAction ($id)
     {
         if(gila::hasPrivilege('admin')==false) return;
-        view::renderAdmin('admin/products.phtml','shop');
-    }
-
-    function edit_categoriesAction ()
-    {
-        if(gila::hasPrivilege('admin')==false) return;
-        view::renderAdmin('admin/categories.phtml','shop');
-    }
-
-    function edit_ordersAction ()
-    {
-        if(gila::hasPrivilege('admin')==false) return;
-        view::renderAdmin('admin/shop_orders.phtml','shop');
-    }
-
-    function edit_orderitemsAction ()
-    {
-        if(gila::hasPrivilege('admin')==false) return;
-        view::renderAdmin('admin/shop_orderitems.phtml','shop');
+        view::set('o', shop::getOrderById($id));
+        view::renderAdmin('admin/view_shop_order.php','shop');
     }
 
     function cartAction ()
