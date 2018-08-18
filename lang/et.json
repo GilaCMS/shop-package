@@ -1,5 +1,8 @@
 {
     "Cart": "Ostukorv",
+    "Shop":"",
+    "shop_op":"Operator of products and shop orders",
+    "Order":"",
     "Item(s)": "",
     "Item": "",
     "Items": "",

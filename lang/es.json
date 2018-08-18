@@ -1,5 +1,8 @@
 {
-    "Cart": "Pedido",
+    "Cart": "Carito",
+    "Shop":"Tienda",
+    "shop_op":"Operador de productos y pedidos",
+    "Order":"Pedido",
     "Item(s)": "Articulo(s)",
     "Item": "Articulo",
     "Items": "Articulos",

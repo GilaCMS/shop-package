@@ -16,7 +16,7 @@ gila::onController('shop',function(){
 
 gila::widgets(['category-list'=>'shop/widgets/category-list']);
 
-gila::$privilege['shop_operator']="Operator of products and shop orders.";
+gila::$privilege['shop_op']="Operator of products and shop orders.";
 
 gila::content('shop_product','shop/tables/shop_product.php');
 gila::content('shop_category','shop/tables/shop_category.php');

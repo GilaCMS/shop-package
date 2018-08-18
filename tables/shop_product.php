@@ -11,10 +11,10 @@ $table = [
     'lang'=> 'shop/lang/',
     'id'=>'id',
     'permissions'=>[
-        'create'=>['admin','op_shop'],
-        'read'=>['admin','op_shop'],
-        'update'=>['admin','op_shop'],
-        'delete'=>['admin','op_shop']
+        'create'=>['admin','shop_op'],
+        'read'=>['admin','shop_op'],
+        'update'=>['admin','shop_op'],
+        'delete'=>['admin','shop_op']
     ],
     'fields'=> [
         'id'=> ['title'=>'#','edit'=>false],

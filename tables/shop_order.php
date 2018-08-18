@@ -10,6 +10,12 @@ $table = [
     'search-box'=> true,
     'lang'=> 'shop/lang/',
     'id'=>'id',
+    'permissions'=>[
+        'create'=>['admin','shop_op'],
+        'read'=>['admin','shop_op'],
+        'update'=>['admin','shop_op'],
+        'delete'=>['admin']
+    ],
     'fields'=> [
         'id'=> [
             'edit'=>false,

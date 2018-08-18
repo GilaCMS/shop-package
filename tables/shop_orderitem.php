@@ -5,6 +5,12 @@ $table = [
     'title'=> 'OrderItems',
     'lang'=> 'shop/lang/',
     'id'=>'id',
+    'permissions'=>[
+        'create'=>['admin','shop_op'],
+        'read'=>['admin','shop_op'],
+        'update'=>['admin'],
+        'delete'=>['admin']
+    ],
     'fields'=> [
         'id'=> ['edit'=>false,'list'=>false,'qtype'=>'INT NOT NULL AUTO_INCREMENT'],
         'order_id'=> ['edit'=>false,'list'=>false,'qtype'=>'INT(4)'],

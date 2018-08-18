@@ -8,6 +8,12 @@ $table = [
     'commands'=>['edit','delete'],
     'bulk_actions'=> true,
     'id'=>'id',
+    'permissions'=>[
+        'create'=>['admin','shop_op'],
+        'read'=>['admin','shop_op'],
+        'update'=>['admin','shop_op'],
+        'delete'=>['admin','shop_op']
+    ],
     'lang'=> 'shop/lang/',
     'fields'=> [
         'id'=> ['edit'=>false],

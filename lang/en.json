@@ -1,5 +1,8 @@
 {
     "Cart":"Cart",
+    "Shop":"Shop",
+    "shop_op":"Operator of products and shop orders",
+    "Order":"Order",
     "Item(s)":"Item(s)",
     "Item":"Item",
     "Items":"Items",

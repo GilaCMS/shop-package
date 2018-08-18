@@ -3,11 +3,15 @@
 	"version":"1.2.0",
 	"description":"A basic ecommerce package.",
 	"url":"gilacms.com",
+	"lang":"shop/lang/",
 	"options": {
 		"currency": {
 			"type":"select",
 			"options": {"EUR":"Euro", "USD":"US Dollars","MXN":"Mexican Pesos"}
 		}
+	},
+	"permissions": {
+		"shop_op": "Operator of products and shop orders"
 	},
 	"require": {
 		"core":"1.7.4"
