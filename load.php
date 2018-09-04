@@ -7,7 +7,6 @@ gila::amenu_child('shop',['Products',"admin/content/shop_product",'icon'=>'codep
 gila::amenu_child('shop',['Orders',"admin/content/shop_order",'icon'=>'shopping-cart']);
 gila::amenu_child('shop',['Categories',"admin/content/shop_category",'icon'=>'bars']);
 gila::amenu_child('shop',['Shipping Methods',"admin/content/shipping_method",'icon'=>'truck']);
-//gila::amenu_child('shop',['FB Marketplace',"shop/fbmarketplace",'icon'=>'facebook']);
 
 gila::onController('shop',function(){
     view::stylesheet('lib/bootstrap/bootstrap.min.css');

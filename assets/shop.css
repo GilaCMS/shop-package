@@ -35,7 +35,7 @@
 }
 /* no grid css support*/
 .products-list{
-    margin:auto;
+    margin:0 auto auto auto;
     width:100%;
 }
 .product {
@@ -91,10 +91,10 @@
 }
 .thumbs>img{
     border:2px solid rgba(1,1,1,0.1);
+    max-height: 160px;
 }
 .thumbs>img.tmb-selected{
     border:2px solid steelblue;
-    max-height: 160px;
 }
 .product-view {
     display:grid;

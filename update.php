@@ -21,6 +21,14 @@ $db->query('CREATE TABLE IF NOT EXISTS `shop_productmeta` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB');
 
+$db->query('CREATE TABLE IF NOT EXISTS `shop_skumeta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sku_id` int(11) DEFAULT NULL,
+  `metakey` varchar(80) DEFAULT NULL,
+  `metavalue` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB');
+
 /*
 
 

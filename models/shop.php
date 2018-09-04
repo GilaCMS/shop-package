@@ -66,6 +66,9 @@ class shop
             }
         }
 
+        self::$cart_total = 0;
+        foreach($cart as $key=>$qty) self::$cart_total += $qty;
+
         \session::key('cart',$cart);
         if($cart == []) \session::unsetKey('cart');
     }
@@ -103,6 +106,7 @@ class shop
             if($product = mysqli_fetch_array($res)) {
                 $db->query("INSERT INTO shop_orderitem(`product_id`,`description`,`order_id`,`qty`,`cost`)
                 SELECT id,title,'{$cart_id}',{$qty},price FROM shop_product WHERE id=?;",[$k]);
+                $db->query("UPDATE shop_product SET stock = stock - {$qty} WHERE id=?",[$k]);
             } else {
                 //error
             }
@@ -114,36 +118,15 @@ class shop
     }
 
     static function getProductMeta($id,$meta) {
-        global $db;
-        return $db->getList("SELECT metavalue FROM shop_productmeta WHERE product_id=? AND metakey=?;",[$id,$meta]);
+        return product::getMeta($id,$meta);
     }
 
     static function getProductById($id) {
-        global $db;
-        $p = $db->query("SELECT id,image,image2,image3,image4,title,description,price,old_price FROM shop_product WHERE id=?;",[$id]);
-        return mysqli_fetch_array($p);
+        return product::getById($id,$meta);
     }
 
     static function getProducts($args) {
-        global $db;
-        $limit = "LIMIT ".(($args['page']-1)*16).",16";
-        $where = "WHERE title !='' AND stock>0";
-
-        if ($args['c']) {
-            $clist = $db->getList("SELECT id FROM shop_category WHERE parent_id = ?;",[$args['c']]);
-            $clist[] = $args['c'];
-            $clist = implode(',',$clist);
-            $where = "WHERE title !='' AND shop_productmeta.product_id=shop_product.id AND shop_productmeta.metavalue IN($clist) AND stock>0";
-        }
-
-        if($args['search']) {
-            $search = strip_tags($args['search']);
-            $where .= " AND title like '%$search%' AND stock>0";
-        }
-
-        $totalpages = (int)$db->value("SELECT COUNT(*)/16 FROM shop_product $where;")+1;
-        $ql = "SELECT shop_product.id,image,title,price, old_price FROM shop_product,shop_productmeta $where GROUP BY id ORDER BY id DESC $limit;";
-        return [$db->get($ql),$totalpages];
+        return product::get($args);
     }
 
     static function getCategoryTree($parent = 0) {

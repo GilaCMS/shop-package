@@ -39,8 +39,8 @@ $slug = 'assets/products/'.$slugify->slugify($p['title']);
         <h2><?=$p['price']?>&nbsp;<?=gila::option('shop.currency')?><h2>
         <form action="shop/cart" method="get">
             <input name="add" value="<?=$p['id']?>" type="hidden"/>
-            <input name="qty" class="g-input" value="1" type="number" size="2" style="width:70px"/>
-            <button href="" class="g-btn" style="background:#ff4545"><i class="fa fa-shopping-cart"></i> <?=__('add_to_cart')?></button>
+            <input name="qty" class="g-input" value="1" type="number" min="0" max="<?=$p['stock']?>" size="2" style="width:70px"/>
+            <button href="" class="g-btn" style="background:#ff4545"><?=__('add_to_cart')?></button>
         <form>
         <hr><p><?=($p['description']?:'')?></p>
     </div>

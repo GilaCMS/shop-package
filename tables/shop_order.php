@@ -45,18 +45,12 @@ $table = [
             'title'=>'Total',
             'type'=>'number',
             'edit'=>false,'create'=>false,
-            'qcolumn'=>'(SELECT SUM(cost) FROM shop_orderitem soi WHERE soi.order_id=shop_order.id)',
+            'qcolumn'=>'(SELECT SUM(cost) FROM shop_orderitem soi WHERE soi.order_id=shop_order.id GROUP BY soi.order_id)',
         ],
         'commands'=>[
             'title'=>'',
             'edit'=>false,'create'=>false,
             'qcolumn'=>"''",'eval'=>"dv='<a href=\"shop/view_order/'+rv.id+'\"><i class=\"fa fa-shopping-cart\"></i></a>';"
-        ],
-        //'paymentmethod_id'=> [],
-        //'paymentcode'=> [],
-        //'paid'=> ['type'=>'date'],
-    ],
-    'children'=>[
-        'shop_orderitem'=>[]
+        ]
     ]
 ];

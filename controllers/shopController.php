@@ -110,6 +110,7 @@ class shopController extends controller
 
         foreach($this->addlist as $d) view::set('add_'.$d, session::key('delivery_'.$d) );
         view::set('shipping_methods', shop::shipping_methods());
+        view::set('product',shop::cartItems());
         view::render('shop-address.php','shop');
     }
 
@@ -173,17 +174,6 @@ class shopController extends controller
         } else view::renderFile('404.phtml');
         view::renderFile('shop-footer.php');
 
-    }
-
-    function proImagesAction(){
-        global $db;
-        $slugify = new Cocur\Slugify\Slugify();
-        $res = $db->get("SELECT id,title FROM shop_product WHERE stock>0");
-        foreach($res as $p){
-            $slug = 'assets/products/'.$slugify->slugify($p[1]).'0.jpg';
-            $db->query("UPDATE shop_product SET image=? WHERE id=?",[$slug,$p[0]]);
-        }
-        echo "ok";
     }
 
 }

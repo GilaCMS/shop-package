@@ -12,7 +12,7 @@ $table = [
         'delete'=>['admin']
     ],
     'fields'=> [
-        'id'=> ['edit'=>false,'list'=>false,'qtype'=>'INT NOT NULL AUTO_INCREMENT'],
+        'id'=> ['edit'=>false,'qtype'=>'INT NOT NULL AUTO_INCREMENT'],
         'order_id'=> ['edit'=>false,'list'=>false,'qtype'=>'INT(4)'],
         'image'=> [
             'edit'=>false,'title'=>'',

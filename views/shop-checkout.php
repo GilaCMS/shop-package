@@ -59,7 +59,6 @@ label{font-weight:bold;}
 <?php
 $slugify = new Cocur\Slugify\Slugify();
 $total = 0;
-$delivery_cost = $g->shipping_methods[$add_shipping_method]['cost'];
 
 foreach ($product as $kid=>$p) {
     $imgsrc = view::thumb_sm($p['image']);
@@ -78,6 +77,12 @@ foreach ($product as $kid=>$p) {
     </table>
     <a class="g-btn btn-warning" href="<?=gila::url("shop/cart")?>"><?=__('review_cart')?></a>
 </div>
+
+<?php
+$shpmthd = $c->shipping_methods[$add_shipping_method];
+$delivery_cost = $shpmthd['cost'];
+if(isset($shpmthd['freeafter']) && $shpmthd['freeafter']<$total) $delivery_cost = 0;
+?>
 
 <div class="gm-4"><span class="cc-title"><i class="fa fa-money"></i> <?=__('Payment')?></span>
     <label><?=__('Products')?>:</label> <?=$total?>&nbsp;<?=gila::option('shop.currency')?><br>
