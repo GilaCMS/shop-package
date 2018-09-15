@@ -18,10 +18,17 @@ class shop
         global $db;
         $cart = \session::key('cart');
         $items=[];
-        if(is_array($cart)) foreach ($cart as $k=>$pid) if(is_numeric($pid)){
-            $res = $db->query("SELECT * FROM shop_product WHERE id=?",$k);
+        if(is_array($cart)) foreach ($cart as $k=>$cqty) if(is_numeric($cqty)) {
+            $ql = "SELECT a.id as id,a.image as image,title,
+                (CASE WHEN new_price=\"\" THEN a.price ELSE new_price END) as price
+                FROM shop_product a,shop_sku b WHERE a.id=b.product_id AND b.id=?";
+            $res = $db->query($ql, $k);
             $items[$k] = mysqli_fetch_array($res);
-            $items[$k]['qty'] = $pid;
+
+            if($v = $db->value("SELECT metavalue FROM shop_skumeta WHERE sku_id=? AND metakey='size';",[$k])) {
+                $items[$k]['title'] .= ' ('.$v.') ';   
+            }
+            $items[$k]['qty'] = $cqty;
         }
         return $items;
     }
@@ -101,13 +108,30 @@ class shop
         $cart_id = $db->insert_id;
 
         foreach ($cart as $k=>$qty) {
-            $res = $db->query("SELECT id,title,price FROM shop_product WHERE id=?",[$k]);
+            $res = $db->query("SELECT id FROM shop_sku WHERE id=?",[$k]);
 
             if($product = mysqli_fetch_array($res)) {
                 $db->query("INSERT INTO shop_orderitem(`product_id`,`description`,`order_id`,`qty`,`cost`)
-                SELECT id,title,'{$cart_id}',{$qty},price FROM shop_product WHERE id=?;",[$k]);
-                $db->query("UPDATE shop_product SET stock = stock - {$qty} WHERE id=?",[$k]);
+                    SELECT a.id,
+                    CONCAT(title,'-',(CASE WHEN b.upc!=\"\" THEN b.upc WHEN a.upc!=\"\" THEN a.upc ELSE \"\" END)),
+                    '{$cart_id}',
+                    {$qty},
+                    (CASE WHEN new_price=\"\" THEN a.price ELSE new_price END)
+                    FROM shop_product a, shop_sku b WHERE b.id=? AND a.id=b.product_id;",[$k]);
+                if($error = $db->error()) echo $error;
+                
+                $cart_item_id = $db->insert_id;
+
+                $attr = $db->getList("SELECT metavalue FROM shop_skumeta WHERE sku_id=? AND metakey IN('size');",[$k]);
+                if(count($attr)>0) {
+                    $cattr = "'".implode("'-'",$attr)."'";
+                    echo $cattr;
+                    $db->query("UPDATE shop_orderitem SET `description`=CONCAT(`description`,'-',$cattr) WHERE id=$cart_item_id;");
+                }
+
+                $db->query("UPDATE shop_sku SET stock = stock - {$qty} WHERE id=?",[$k]);
             } else {
+                echo "ERROR";
                 //error
             }
         }
@@ -122,7 +146,7 @@ class shop
     }
 
     static function getProductById($id) {
-        return product::getById($id,$meta);
+        return product::getById($id);
     }
 
     static function getProducts($args) {
@@ -131,11 +155,17 @@ class shop
 
     static function getCategoryTree($parent = 0) {
         global $db;
-        $list = $db->get('SELECT * FROM shop_category WHERE parent_id=? AND active=1',[$parent]);
+        $list = $db->get('SELECT * FROM shop_category WHERE parent_id=?;',[$parent]);
         if($list != []) {
-            $children = $db->get('SELECT * FROM shop_category WHERE parent_id=? AND active=1',[$parent]);
+            $children = $db->get('SELECT * FROM shop_category WHERE parent_id=?;',[$parent]);
             if($children != []) $list['children'] = $children;
         }
+        return $list;
+    }
+
+    static function getAllCategories() {
+        global $db;
+        $list = $db->get('SELECT * FROM shop_category;');
         return $list;
     }
 

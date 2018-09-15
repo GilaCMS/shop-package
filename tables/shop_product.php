@@ -4,8 +4,9 @@ $table = [
     'name'=> 'shop_product',
     'title'=> 'Products',
     'pagination'=> 30,
-    'tools'=>['add','csv'],
-    'commands'=>['edit','clone','delete'],
+    'tools'=>['add'],
+    'commands'=>['edit','delete'],
+    'clone'=>['image','image2','title','price'],
     'bulk_actions'=> true,
     'search-box'=> true,
     'lang'=> 'shop/lang/',
@@ -28,9 +29,8 @@ $table = [
         'image3'=> ['type'=>'media', 'qtype'=>'VARCHAR(120)', 'list'=> false],
         'image4'=> ['type'=>'media', 'qtype'=>'VARCHAR(120)', 'list'=> false],
         'title'=> ['title'=>'Title','qtype'=>'VARCHAR(120)'],
-        'description'=> ['list'=> false,'qtype'=>'TEXT'],
         'price'=> ['title'=>'Price','qtype'=>'DOUBLE DEFAULT 0'],
-        'old_price'=> ['qtype'=>'DOUBLE DEFAULT 0', 'list'=> false, 'create'=> false],
+        'new_price'=> ['qtype'=>'VARCHAR(20) DEFAULT ""', 'list'=> false, 'create'=> false],
         'categories'=> [
             'type'=> 'meta',
             'title'=> 'Categories',
@@ -38,9 +38,18 @@ $table = [
             "mt"=>['shop_productmeta', 'product_id', 'metavalue'],
             'metatype'=>['metakey', 'category']
         ],
-        'upc'=> ['list'=> false,'qtype'=>'VARCHAR(30) NOT NULL'],
-        'stock'=> [
-            'default'=> 1,'qtype'=>'INT(4) DEFAULT 0'
+        'upc'=> ['list'=> false,'qtype'=>'VARCHAR(30) DEFAULT ""'],
+        //'stock'=> [
+        //    'default'=> 1,'qtype'=>'INT(4) DEFAULT 0'
+        //],
+        'description'=> [
+            'title'=>'Description','list'=> false,'qtype'=>'TEXT','type'=>'textarea','input-type'=>'tinymce', 'allow-tags'=>true
+        ]
+    ],
+    'children'=>[
+        'shop_sku'=>[
+            'parent_id'=>'product_id',
+            'list'=>['id','size','stock']
         ]
     ]
 ];

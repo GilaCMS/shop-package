@@ -65,24 +65,18 @@ label {margin-top:15px}
             <label class="g-label"><?=__('Shipping Method')?>:</label>
             <select class="form-control g-input" name="add_shipping_method" required>
             <?php
-            $total = 0;
-            foreach ($product as $kid=>$p) {
-                $total += $p['qty']*$p['price'];
-            }
-            foreach($c->shipping_methods as $key=>$dt) {
-                echo "<option value=\"$key\">";
-                echo $dt['description'];
-                $cost = $dt['cost'];
-                echo ' &nbsp;<strong>(';
-                if($dt['freeafter']>0 && $dt['freeafter']>$total) {
+            $total = shop\models\shop::cartTotal();
+                foreach($c->shipping_methods as $key=>$dt) {
+                    echo "<option value=\"$key\">";
+                    echo $dt['description'];
+                    $cost = $dt['cost'];
+                    if($dt['freeafter']>0 && $dt['freeafter']<$total)
                     if($cost > 0)
-                        echo $cost.' '.gila::option('shop.currency');
+                        echo " <strong>+{$dt['cost']} {gila::option('shop.currency')}</strong>";
                     else
-                        echo __('Free');
-                } else echo __('Free');
-                echo ')';
-                echo "</option>";
-            }
+                        echo " <strong>".__('Free')."</strong>";
+                    echo "</option>";
+                }
             ?>
             </select>
         </div>

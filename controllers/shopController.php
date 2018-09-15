@@ -10,7 +10,7 @@ class shopController extends controller
 
     function __construct()
     {
-        if(session::user_id()==0) router::cache(3600,[shop::cartTotal()]);
+        if(session::user_id()==0) router::cache(300,[shop::cartTotal()]);
         $this->addlist = ['receiver','address','reference','shipping_method','pc','city','phone','email'];
 
         if($_SERVER['REQUEST_METHOD'] === 'POST') if(isset($_POST['submit_address'])) {
@@ -26,7 +26,11 @@ class shopController extends controller
 
     function indexAction ()
     {
-        $this->listAction();
+        if ($r = page::getBySlug(router::get('page',1))) {
+            view::set('title',$r['title']);
+            view::set('text',$r['page']);
+            view::render('page.php');
+        } else $this->listAction();
     }
 
     function listAction ()
@@ -36,6 +40,7 @@ class shopController extends controller
 
         $search = router::get('search');
         $page = router::get('page');
+        $offers = router::get('offers');
         if($page==null) $page=1;
 
         view::set('category_name', gila::config('title').' - '.gila::config('slogan'));
@@ -50,7 +55,7 @@ class shopController extends controller
             session::key('category_name',$category_name);
         }
 
-        $products = shop::getProducts(['c'=>$c,'page'=>$page,'search'=>$search]);
+        $products = shop::getProducts(['c'=>$c,'page'=>$page,'search'=>$search,'offers'=>$offers]);
 
         view::set('search',$search);
         view::set('page',$page);
@@ -62,11 +67,14 @@ class shopController extends controller
 
     function productAction ()
     {
-        $id = router::get('product_id',1);
-        $id = explode('-',$id)[0];
+        $product_id = router::get('product_id',1);
+        $product_id = explode('-',$product_id);
+        $id = $product_id[0];
+        
         $p = shop::getProductById($id);
         $categories = shop::getProductMeta($id,'category');
         view::set('p',$p);
+        view::set('sku_id',@$product_id[1]?:'');
         view::set('categories',$categories);
         view::set('page_title',$p['title']);
         view::meta('og:title',$p['title']);
@@ -76,9 +84,9 @@ class shopController extends controller
         view::meta('product:price:currency',gila::option('shop.currency','EUR'));
         view::meta('fb:app_id',gila::config('base'));
         view::meta('og:url',gila::config('base').gila::url('shop/product/'.$id));
-        view::meta('og:description',$p['description']);
+        view::meta('og:description',strip_tags($p['description']));
         if($p['image']!=null) {
-            view::meta('og:image',gila::config('base').$p['image']);
+            view::meta('og:image',gila::config('base').view::thumb($p['image'],'',600));
             view::meta('twiiter:image',gila::config('base').$p['image']);
             view::meta('twitter:card','summary');
         }
@@ -126,13 +134,7 @@ class shopController extends controller
             return;
         }
 
-        $product=[];
-        if(is_array($this->cart)) foreach ($this->cart as $k=>$pid) {
-            $res = $db->query("SELECT * FROM shop_product WHERE id=?",$k);
-            $product[$k] = mysqli_fetch_array($res);
-            $product[$k]['qty'] = $pid;
-        }
-        view::set('product',$product);
+        view::set('product',shop::cartItems());
 
         foreach($this->addlist as $d) view::set('add_'.$d, session::key('delivery_'.$d) );
 
@@ -163,17 +165,16 @@ class shopController extends controller
         view::render('shop-placedorder.php','shop');
     }
 
-    function pageAction ()
-    {
-        view::renderFile('shop-header.php');
-        $id = router::get('id',1) ;
-        if ($r = page::getByIdSlug($id)) {
-            view::set('title',$r['title']);
-            view::set('text',$r['page']);
-            view::renderFile('page.php');
-        } else view::renderFile('404.phtml');
-        view::renderFile('shop-footer.php');
 
+    function proImagesAction(){
+        global $db;
+        $slugify = new Cocur\Slugify\Slugify();
+        $res = $db->get("SELECT id,title FROM shop_product WHERE stock>0");
+        foreach($res as $p){
+            $slug = 'assets/products/'.$slugify->slugify($p[1]).'0.jpg';
+            $db->query("UPDATE shop_product SET image=? WHERE id=?",[$slug,$p[0]]);
+        }
+        echo "ok";
     }
 
 }

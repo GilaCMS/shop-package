@@ -4,7 +4,7 @@ $table = [
     'name'=> 'shop_category',
     'title'=> 'Categories',
     'pagination'=> 30,
-    'tools'=>['add','csv'],
+    'tools'=>['add'],
     'commands'=>['edit','delete'],
     'bulk_actions'=> true,
     'id'=>'id',
@@ -20,6 +20,7 @@ $table = [
         'title'=> ['qtype'=>'VARCHAR(120)'],
         'description'=> ['qtype'=>'TEXT'],
         'parent_id'=> [
+            'input-type'=>'select',
             'options'=>[0=>'-'],
             'qoptions'=> 'SELECT id, title FROM shop_category;',
             'list'=>false,

@@ -35,13 +35,13 @@ foreach ($product as $kid=>$p) {
     $tdprice = $p['price'].'&nbsp;'.$currency;
 ?>
         <tr>
-            <td><a class="removebtn g-btn btn-white" href="<?=gila::make_url("shop","cart")."?remove=".$p['id']?>"><i class="fa fa-remove"></i></a>
+            <td><a class="removebtn g-btn btn-white" href="<?=gila::make_url("shop","cart")."?remove=".$kid?>"><i class="fa fa-remove"></i></a>
             <td style="max-width:100px;"><img src="<?=$imgsrc?>" style="max-height:120px;vertical-align:middle" />
                 <span><a href="shop/product/<?=$p['id']?>/<?=$slug?>"><?=$p['title']?></a></span>
             <td><?=$tdprice?>
             <td>
                 <span>
-                <input name="_product[<?=$p['id']?>]" class="g-input" type="number" value="<?=$p['qty']?>" style="width:60px"></input>
+                <input name="_product[<?=$kid?>]" class="g-input" type="number" value="<?=$p['qty']?>" style="width:60px"></input>
                 </span>
             <td><?=($p['qty']*$p['price'])?>&nbsp;<?=$currency?>
 

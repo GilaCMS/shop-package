@@ -1,10 +1,10 @@
 <?php
 
-$table = [
+return [
     'name'=> 'shop_order',
     'title'=> 'Orders',
     'pagination'=> 30,
-    'tools'=>['add','csv'],
+    'tools'=>['add'],
     'commands'=>['edit','delete'],
     'bulk_actions'=> true,
     'search-box'=> true,
@@ -31,6 +31,7 @@ $table = [
             'qtype'=>'INT(4) NOT NULL DEFAULT 0'
         ],
         'status'=> [
+            'input-type'=>'select',
             'options'=> ['new'=>'New','paid'=>'Paid','process'=>'Process','delivered'=>'Delivered','canceled'=>'Canceled'],
             'qtype'=>'VARCHAR(20)'
         ],
@@ -45,12 +46,21 @@ $table = [
             'title'=>'Total',
             'type'=>'number',
             'edit'=>false,'create'=>false,
-            'qcolumn'=>'(SELECT SUM(cost) FROM shop_orderitem soi WHERE soi.order_id=shop_order.id GROUP BY soi.order_id)',
+            'qcolumn'=>'(SELECT SUM(cost*qty) FROM shop_orderitem soi WHERE soi.order_id=shop_order.id GROUP BY soi.order_id)',
         ],
         'commands'=>[
             'title'=>'',
             'edit'=>false,'create'=>false,
             'qcolumn'=>"''",'eval'=>"dv='<a href=\"shop/view_order/'+rv.id+'\"><i class=\"fa fa-shopping-cart\"></i></a>';"
+        ],
+        //'paymentmethod_id'=> [],
+        //'paymentcode'=> [],
+        //'paid'=> ['type'=>'date'],
+    ],
+    'children'=>[
+        'shop_orderitem'=>[
+            'parent_id'=>'order_id',
+            'list'=>['id','image','product_id','description','qty','cost']
         ]
     ]
 ];

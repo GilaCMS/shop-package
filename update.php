@@ -12,6 +12,8 @@ $table = new gTable('src/shop/tables/shop_order.php');
 $table->update();
 $table = new gTable('src/shop/tables/shop_orderitem.php');
 $table->update();
+$table = new gTable('src/shop/tables/shop_sku.php');
+$table->update();
 
 $db->query('CREATE TABLE IF NOT EXISTS `shop_productmeta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

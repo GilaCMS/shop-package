@@ -30,6 +30,9 @@
     margin-top:-56px;
     text-align: center;
 }
+.product--attributes{
+    margin:1.5em 0;
+}
 .sidebar{
     display: none;
 }
@@ -79,7 +82,8 @@
 /***   product  ***/
 #imgZoom{
     margin:auto;
-    max-height: 480px;
+    margin-top:0;
+    max-height: 600px;
 }
 #overlay{
   width:300px;
@@ -88,13 +92,15 @@
   display:none;
   background-repeat:no-repeat;
   z-index:999999;
+  background-color: rgba(200,200,200,0.9);
+  border: 1px solid #ccc;
 }
 .thumbs>img{
     border:2px solid rgba(1,1,1,0.1);
-    max-height: 160px;
 }
 .thumbs>img.tmb-selected{
     border:2px solid steelblue;
+    max-height: 160px;
 }
 .product-view {
     display:grid;
