@@ -43,7 +43,7 @@ label {margin-top:15px}
             <label class="g-label"><?=__('_add_receiver_name')?>: </label><input class="form-control g-input" value="<?=$add_receiver?>" name="add_receiver" type="text" required>
         </div>
         <div class="col-md-6 gm-6">
-            <label class="g-label"><?=__('_add_tel')?>: </label><input class="form-control g-input" value="<?=$add_phone?>" name="add_phone" maxlength="10" type="tel" required>
+            <label class="g-label"><?=__('_add_tel')?>: </label><input class="form-control g-input" value="<?=$add_phone?>" name="add_phone" maxlength="20" type="tel" required>
         </div>
         <div class="col-md-6 gm-6">
             <label class="g-label"><?=__('Email')?>: </label><input class="form-control g-input" value="<?=$add_email?>" name="add_email" maxlength="120" type="email" required>
@@ -65,16 +65,21 @@ label {margin-top:15px}
             <label class="g-label"><?=__('Shipping Method')?>:</label>
             <select class="form-control g-input" name="add_shipping_method" required>
             <?php
-            $total = shop\models\shop::cartTotal();
+            $total = 0;
+            foreach ($product as $kid=>$p) {
+                $total += $p['qty']*$p['price'];
+            }
                 foreach($c->shipping_methods as $key=>$dt) {
                     echo "<option value=\"$key\">";
                     echo $dt['description'];
                     $cost = $dt['cost'];
-                    if($dt['freeafter']>0 && $dt['freeafter']<$total)
-                    if($cost > 0)
-                        echo " <strong>+{$dt['cost']} {gila::option('shop.currency')}</strong>";
-                    else
-                        echo " <strong>".__('Free')."</strong>";
+                    
+                    if($cost > 0) {
+                        if($dt['freeafter']==0 || $dt['freeafter']>$total)
+                            echo ' <strong>+'.$dt['cost'].' '.gila::option('shop.currency').'</strong>';
+                        else
+                            echo " <strong>".__('Free')."</strong>";
+                    }
                     echo "</option>";
                 }
             ?>

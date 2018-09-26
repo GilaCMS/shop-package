@@ -19,13 +19,12 @@ $table = [
     'fields'=> [
         'id'=> ['title'=>'#','edit'=>false],
         'product_id'=> ['list'=>'false','edit'=>'false','qtype'=>'INT(11) NOT NULL'],
-        'size'=> [
+/*        'size'=> [
             'type'=>'meta',
-            'input-type'=> 'select',
             'options'=>[''=>'-','OneSize'=>'One Size','S'=>'S','S-M'=>'S-M','M'=>'M','M-L'=>'M-L','L'=>'L'],
             "mt"=>['shop_skumeta', 'sku_id', 'metavalue'],
             'metatype'=>['metakey', 'size']
-        ],
+        ],*/
         //'price'=> ['title'=>'Price','qtype'=>'VARCHAR(20) DEFAULT ""''],
         //'upc'=> ['qtype'=>'VARCHAR(30)'],
         'stock'=> [

@@ -33,6 +33,11 @@ class shopController extends controller
         } else $this->listAction();
     }
 
+    function admin_payment_methodAction ()
+    {
+        view::renderAdmin('page.php');
+    }
+
     function listAction ()
     {
         global $db;
@@ -139,6 +144,7 @@ class shopController extends controller
         foreach($this->addlist as $d) view::set('add_'.$d, session::key('delivery_'.$d) );
 
         view::set('shipping_methods', shop::shipping_methods());
+        view::set('payment_methods', shop::payment_methods());
         view::render('shop-checkout.php','shop');
     }
 
@@ -156,6 +162,7 @@ class shopController extends controller
         foreach($this->addlist as $d) {
             $data[$d] = session::key('delivery_'.$d);
         }
+        $data['payment_method'] = @$_POST['payment_method']?:0;
 
         $order_id = shop::placeOrder($data,$this->cart);
 

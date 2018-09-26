@@ -1,7 +1,7 @@
 <?php
 
 $table = [
-    'name'=> 'shipping_method',
+    'name'=> 'payment_method',
     'title'=> 'Shipping Methods',
     'pagination'=> 30,
     'tools'=>['add','csv'],
@@ -18,9 +18,9 @@ $table = [
     'fields'=> [
         'id'=> ['edit'=>false,'qtype'=>'INT NOT NULL AUTO_INCREMENT'],
         'img'=> ['title'=>'Image','type'=>'media','qtype'=>'VARCHAR(120)'],
-        'description'=> ['title'=>'Description','qtype'=>'VARCHAR(200)'],
+        'description'=> ['title'=>'Desription','qtype'=>'VARCHAR(200)'],
         'cost'=> ['title'=>'Cost','type'=>'number','qtype'=>'DOUBLE DEFAULT 0'],
-        'freeafter'=> ['title'=>'Free After','type'=>'number','qtype'=>'DOUBLE DEFAULT 0'],
+        'cost_f'=> ['title'=>'Cost Factor','type'=>'number','qtype'=>'DOUBLE DEFAULT 0'],
         'pos'=> ['type'=>'number','qtype'=>'INT NOT NULL DEFAULT 0']
     ]
 ];

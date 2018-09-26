@@ -36,7 +36,7 @@ return [
             'qtype'=>'VARCHAR(20)'
         ],
         'add_city'=> ['title'=>'City','qtype'=>'VARCHAR(80)'],
-        'add_shipping_method'=> ['title'=>'Shipping Method','qoptions'=>'SELECT id,description FROM shipping_method','qtype'=>'INT(1) NOT NULL DEFAULT 0'],
+        'add_shipping_method'=> ['title'=>'Shipping Method','input-type'=>'select','qoptions'=>'SELECT id,description FROM shipping_method','qtype'=>'INT(1) NOT NULL DEFAULT 0'],
         'add_address'=> ['list'=> false, 'title'=>'Address','qtype'=>'VARCHAR(240)'],
         'add_reference'=> ['list'=> false, 'title'=>'Reference','qtype'=>'VARCHAR(240)'],
         'add_pc'=> ['list'=> false, 'title'=>'CP','qtype'=>'VARCHAR(20)'],

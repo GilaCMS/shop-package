@@ -59,12 +59,22 @@ label{font-weight:bold;}
 <?php
 $slugify = new Cocur\Slugify\Slugify();
 $total = 0;
-$delivery_cost = $g->shipping_methods[$add_shipping_method]['cost'];
+foreach ($product as $kid=>$p) {
+    $total += $p['qty']*$p['price'];
+}
+$dt = $g->shipping_methods[$add_shipping_method];
+$delivery_cost = 0;
+if($dt['cost'] > 0) {
+    if($dt['freeafter']==0 || $dt['freeafter']>$total)
+        $delivery_cost = $dt['cost'];
+    else
+        $delivery_cost = 0;
+}
 
 foreach ($product as $kid=>$p) {
     $imgsrc = view::thumb_sm($p['image']);
     //$addurl = gila::url("shop/cart")."?add={$p['id']}&qty=";
-    $total += $p['qty']*$p['price'];
+    //$total += $p['qty']*$p['price'];
 ?>
         <tr>
             <td style="width:80px"><img src="<?=$imgsrc?>" style="max-height:120px;width:100%;" />
@@ -83,6 +93,25 @@ foreach ($product as $kid=>$p) {
     <label><?=__('Products')?>:</label> <?=$total?>&nbsp;<?=gila::option('shop.currency')?><br>
     <label><?=__('shipping_cost')?>:</label> <?=$delivery_cost?>&nbsp;<?=gila::option('shop.currency')?><br>
     <label><?=__('total_to_pay')?>:</label> <?=($total+$delivery_cost)?>&nbsp;<?=gila::option('shop.currency')?><br>
+    <?php
+    if(@$c->payment_methods) { ?>
+        <select class="form-control g-input" name="payment_method" required>
+            <?php
+                foreach($c->payment_methods as $key=>$dt) {
+                    echo "<option value=\"$key\">";
+                    echo $dt['description'];
+                    $cost = $dt['cost'];
+                    
+                    if($cost > 0) {
+                            echo ' <strong>+'.$dt['cost'].' '.gila::option('shop.currency').'</strong>';
+                    }
+                    echo "</option>";
+                }
+            ?>
+        </select>
+    <? } else { ?>
+
+    <?php }?>
     <a class="fullwidth g-btn btn-success" href="<?=gila::url("shop/placedorder")?>"><?=__('Checkout')?></a>
 </div>
 

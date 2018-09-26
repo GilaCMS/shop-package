@@ -4,7 +4,9 @@ namespace shop\models;
 class shop
 {
     static private $shipping_method;
+    static private $payment_method;
     static private $cart_total;
+    static private $attributes, $meta_attr;
 
     static function shipping_methods() {
         global $db;
@@ -12,6 +14,14 @@ class shop
             self::$shipping_method = $db->get("SELECT img,description,cost,freeafter FROM shipping_method ORDER BY pos;");
         }
         return self::$shipping_method;
+    }
+
+    static function payment_methods() {
+        global $db;
+        if(!isset(self::$payment_method)) {
+            self::$payment_method = $db->get("SELECT img,description,cost,cost_f FROM payment_method ORDER BY pos;");
+        }
+        return self::$payment_method;
     }
 
     static function cartItems() {
@@ -25,7 +35,7 @@ class shop
             $res = $db->query($ql, $k);
             $items[$k] = mysqli_fetch_array($res);
 
-            if($v = $db->value("SELECT metavalue FROM shop_skumeta WHERE sku_id=? AND metakey='size';",[$k])) {
+            if($v = $db->value("SELECT metavalue FROM shop_skumeta WHERE sku_id=? AND metakey IN({self::$meta_attr});",[$k])) {
                 $items[$k]['title'] .= ' ('.$v.') ';   
             }
             $items[$k]['qty'] = $cqty;
@@ -122,7 +132,7 @@ class shop
                 
                 $cart_item_id = $db->insert_id;
 
-                $attr = $db->getList("SELECT metavalue FROM shop_skumeta WHERE sku_id=? AND metakey IN('size');",[$k]);
+                $attr = $db->getList("SELECT metavalue FROM shop_skumeta WHERE sku_id=? AND metakey IN({self::$meta_attr});",[$k]);
                 if(count($attr)>0) {
                     $cattr = "'".implode("'-'",$attr)."'";
                     echo $cattr;
@@ -167,6 +177,19 @@ class shop
         global $db;
         $list = $db->get('SELECT * FROM shop_category;');
         return $list;
+    }
+
+    static function attributes() {
+        global $db;
+        if(isset(self::$attributes)) return self::$attributes;
+        $attributes = $db->gen("SELECT id,label FROM shop_attribute;");
+        $meta_attr = [];
+        foreach($attributes as $attr) {
+            $meta_attr = "'attr{$attr[0]}'";
+            self::$attributes['attr'.$attr[0]] = $attr;
+        }
+        self::$meta_attr = implode(',',$meta_attr);
+        return self::$attributes;
     }
 
 }

@@ -49,7 +49,7 @@ $table = [
     'children'=>[
         'shop_sku'=>[
             'parent_id'=>'product_id',
-            'list'=>['id','size','stock']
+            'list'=>['id','stock']
         ]
     ]
 ];

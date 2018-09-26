@@ -14,6 +14,10 @@
     "image4": "Image 4",
     "Stock": "Stock",
     "Stock Keeping Unit": "Stock Keeping Unit",
+    "Attribute": "Attribute",
+    "Attributes": "Attributes",
+    "Option": "Option",
+    "Options": "Options",
     "Price": "Price",
     "old_price": "Old Price",
     "new_price": "New Price",
@@ -45,7 +49,9 @@
     "_add_pc": "Zip/Postal Code",
     "City": "City",
     "Shipping Method": "Shipping Method",
+    "Shipping Methods": "Shipping Methods",
     "Payment Method": "Payment Method",
+    "Payment Methods": "Payment Methods",
     "Checkout": "Checkout",
     "_pay_url_msg": "Your shopping cart is empty. If you didn't make the payment for your last order follow this link"
 }
