@@ -123,11 +123,13 @@ class shop
             if($product = mysqli_fetch_array($res)) {
                 $db->query("INSERT INTO shop_orderitem(`product_id`,`description`,`order_id`,`qty`,`cost`)
                     SELECT a.id,
-                    CONCAT(title,'-',(CASE WHEN b.upc!=\"\" THEN b.upc WHEN a.upc!=\"\" THEN a.upc ELSE \"\" END)),
+                    CONCAT(title,'-',(CASE WHEN a.upc!=\"\" THEN a.upc ELSE \"\" END)),
                     '{$cart_id}',
                     {$qty},
                     (CASE WHEN new_price=\"\" THEN a.price ELSE new_price END)
                     FROM shop_product a, shop_sku b WHERE b.id=? AND a.id=b.product_id;",[$k]);
+                // CONCAT(title,'-',(CASE WHEN b.upc!=\"\" THEN b.upc WHEN a.upc!=\"\" THEN a.upc ELSE \"\" END)),
+                
                 if($error = $db->error()) echo $error;
                 
                 $cart_item_id = $db->insert_id;

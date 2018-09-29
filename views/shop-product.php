@@ -42,7 +42,7 @@ $slugify = new Cocur\Slugify\Slugify();
             if(count($p['sku'])==1) $sku_id = $p['sku'][0]['id'];
             if(sizeof($p['sku_attr'])>0) {
                 $attr_label = [];
-                foreach($p['sku_attr'] as $_attr) $attr_label[] = __(shop\models\shop::attributes()[$_attr]);
+                foreach($p['sku_attr'] as $_attr) $attr_label[] = __(shop\models\shop::attributes()[$_attr]['label']);
                 echo '<div class="product--attributes"><label>'.implode(' - ',$attr_label).'</label>&nbsp;';
                 echo '<select name="add" class="g-input" onchange="change_sku(this)" required>';
                 if(count($p['sku'])>1) {

@@ -69,6 +69,7 @@ gForm::addInputType("productcategory",function($name,$field,$ov) {
 gila::contentInit('shop_sku', function(&$table) {
     global $db;
     foreach(shop\models\shop::attributes() as $attr) {
+        $options = [];
         $opres = $db->gen("SELECT optionkey,optionvalue FROM shop_attr_option WHERE attribute_id={$attr[0]};");
         foreach($opres as $op) {
             $options[$op[0]] = $op[1];
