@@ -13,6 +13,7 @@
 .product-body {
     height:100%;
     padding-bottom: 54px;
+    padding-top: 8px;
 }
 .product-price {
     font-weight: bold;
@@ -107,6 +108,7 @@
     grid-gap:20px;
     background:white;
     grid-template-columns: 1fr;
+    margin-top: 20px;
 }
 .product-img {
     display:grid;

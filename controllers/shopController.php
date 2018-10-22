@@ -10,7 +10,6 @@ class shopController extends controller
 
     function __construct()
     {
-        if(session::user_id()==0) router::cache(300,[shop::cartTotal()]);
         $this->addlist = ['receiver','address','reference','shipping_method','pc','city','phone','email'];
 
         if($_SERVER['REQUEST_METHOD'] === 'POST') if(isset($_POST['submit_address'])) {
@@ -41,6 +40,7 @@ class shopController extends controller
     function listAction ()
     {
         global $db;
+        if(session::user_id()==0) router::cache(300,[shop::cartTotal()]);
         $c = router::get('category',1);
 
         $search = router::get('search');
@@ -72,6 +72,7 @@ class shopController extends controller
 
     function productAction ()
     {
+        if(session::user_id()==0) router::cache(300,[shop::cartTotal()],[gila::mt('shop_product')]);
         $product_id = router::get('product_id',1);
         $product_id = explode('-',$product_id);
         $id = $product_id[0];

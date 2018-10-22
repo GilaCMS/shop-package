@@ -47,7 +47,7 @@ menuItemTypes::addItemType ('productcategory', [
         $ql="SELECT id,title FROM shop_category WHERE id=?;";
         $res = $db->query($ql,@$mi['id']);
         while($r=mysqli_fetch_array($res)){
-            $url = gila::url("shop").$r[0].'/'.$r[1];
+            $url = gila::url("shop/").$r[0].'/'.$r[1];
             $name = $r[1];
             return[$url,$name];
         }
