@@ -70,7 +70,8 @@ label {margin-top:15px}
                 $total += $p['qty']*$p['price'];
             }
                 foreach($c->shipping_methods as $key=>$dt) {
-                    echo "<option value=\"$key\">";
+                    if($add_shipping_method == $key) $selected="selected"; else $selected="";
+                    echo "<option value=\"{$dt['id']}\" $selected>";
                     echo $dt['description'];
                     $cost = $dt['cost'];
                     

@@ -11,7 +11,7 @@ class shop
     static function shipping_methods() {
         global $db;
         if(!isset(self::$shipping_method)) {
-            self::$shipping_method = $db->get("SELECT img,description,cost,freeafter FROM shipping_method ORDER BY pos;");
+            self::$shipping_method = $db->get("SELECT id,img,description,cost,freeafter FROM shipping_method ORDER BY pos;");
         }
         return self::$shipping_method;
     }
@@ -19,7 +19,7 @@ class shop
     static function payment_methods() {
         global $db;
         if(!isset(self::$payment_method)) {
-            self::$payment_method = $db->get("SELECT img,description,cost,cost_f FROM payment_method ORDER BY pos;");
+            self::$payment_method = $db->get("SELECT id,img,description,cost,cost_f FROM payment_method ORDER BY pos;");
         }
         return self::$payment_method;
     }

@@ -35,6 +35,12 @@
 label{font-weight:bold;}
 </style>
 
+<?php
+foreach($g->shipping_methods as $dt) {
+    if($dt['id']==$add_shipping_method) $_shipping_method = $dt;
+}
+?>
+
 <div id="checkout-content" class="">
 
 <div class="gl-4"><span class="cc-title"><i class="fa fa-map-marker"></i> <?=__('your_data')?></span>
@@ -46,7 +52,7 @@ label{font-weight:bold;}
     <label><?=__('City')?>:</label> <?=$add_city?><br>
     <label><?=__('_add_tel')?>:</label> <?=$add_phone?><br>
     <label><?=__('Email')?>:</label> <?=$add_email?><br>
-    <label><?=__('Shipping Method')?>:</label> <?=$g->shipping_methods[$add_shipping_method]['description']?><br>
+    <label><?=__('Shipping Method')?>:</label> <?=$_shipping_method['description']?><br>
     <br><a class="g-btn btn-warning" href="<?=gila::url("shop/address")?>"><?=__('review_data')?></a>
 </form>
 </div>
@@ -62,7 +68,7 @@ $total = 0;
 foreach ($product as $kid=>$p) {
     $total += $p['qty']*$p['price'];
 }
-$dt = $g->shipping_methods[$add_shipping_method];
+$dt = $_shipping_method;
 $delivery_cost = 0;
 if($dt['cost'] > 0) {
     if($dt['freeafter']==0 || $dt['freeafter']>$total)
@@ -98,7 +104,7 @@ foreach ($product as $kid=>$p) {
         <select class="form-control g-input" name="payment_method" required>
             <?php
                 foreach($c->payment_methods as $key=>$dt) {
-                    echo "<option value=\"$key\">";
+                    echo "<option value=\"{$dt['id']}\">";
                     echo $dt['description'];
                     $cost = $dt['cost'];
                     

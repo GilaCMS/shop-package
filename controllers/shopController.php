@@ -164,7 +164,7 @@ class shopController extends controller
             $data[$d] = session::key('delivery_'.$d);
         }
         $data['payment_method'] = @$_POST['payment_method']?:0;
-
+ 
         $order_id = shop::placeOrder($data,$this->cart);
 
         if(event::fire('shop::pay',$order_id)) exit;
