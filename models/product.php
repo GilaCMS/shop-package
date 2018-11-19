@@ -48,7 +48,7 @@ class product
             $clist = $db->getList("SELECT id FROM shop_category WHERE parent_id = ?;",[$args['c']]);
             $clist[] = $args['c'];
             $clist = implode(',',$clist);
-            $where = "WHERE title !='' AND shop_productmeta.product_id=shop_product.id AND shop_productmeta.metavalue IN($clist) AND (SELECT SUM(stock) FROM shop_sku WHERE product_id=shop_product.id GROUP BY product_id)>0";
+            $where = "WHERE title !='' AND (SELECT count(*) FROM shop_productmeta WHERE shop_productmeta.product_id=shop_product.id AND shop_productmeta.metavalue IN($clist))>0 AND (SELECT SUM(stock) FROM shop_sku WHERE product_id=shop_product.id GROUP BY product_id)>0";
         }
 
         if($args['search']) {
@@ -59,9 +59,10 @@ class product
         if(@$args['offers']==true) {
             $where .= " AND new_price!=\"\"";
         }
-
-        $totalpages = (int)$db->value("SELECT COUNT(*)/$ppp FROM shop_product $where;")+1;
-        $ql = "SELECT shop_product.id,image,title,(CASE WHEN new_price=\"\" THEN price ELSE new_price END) as price,price as old_price, (SELECT SUM(stock) FROM shop_sku WHERE product_id=shop_product.id GROUP BY product_id) as stock FROM shop_product,shop_productmeta $where GROUP BY id ORDER BY id DESC $limit;";
+        
+        $totalpages = floor( (int)$db->value("SELECT COUNT(*) FROM shop_product $where;")/$ppp);
+        if($totalpages == 0) $totalpages = 1;
+        $ql = "SELECT shop_product.id,image,title,(CASE WHEN new_price=\"\" THEN price ELSE new_price END) as price,price as old_price, (SELECT SUM(stock) FROM shop_sku WHERE product_id=shop_product.id GROUP BY product_id) as stock FROM shop_product $where ORDER BY id DESC $limit;";
         return [$db->get($ql),$totalpages];
     }
 }

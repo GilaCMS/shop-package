@@ -23,7 +23,7 @@ $table->update();
 
 $db->query('CREATE TABLE IF NOT EXISTS `shop_productmeta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) DEFAULT NULL,
+  `product_id` int(11) NOT NULL DEFAULT 0,
   `metakey` varchar(80) DEFAULT NULL,
   `metavalue` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -31,11 +31,15 @@ $db->query('CREATE TABLE IF NOT EXISTS `shop_productmeta` (
 
 $db->query('CREATE TABLE IF NOT EXISTS `shop_skumeta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sku_id` int(11) DEFAULT NULL,
+  `sku_id` int(11) NOT NULL DEFAULT 0,
   `metakey` varchar(80) DEFAULT NULL,
   `metavalue` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB');
+
+$db->query('ALTER TABLE `shop_sku` ADD INDEX `product_id` (`product_id` ASC);');
+$db->query('ALTER TABLE `shop_productmeta` ADD INDEX `product_id` (`product_id` ASC);');
+$db->query('ALTER TABLE `shop_skumeta` ADD INDEX `sku_id` (`sku_id` ASC);');
 
 /*
 
