@@ -10,6 +10,7 @@
 $slugify = new Cocur\Slugify\Slugify();
 
 foreach ($products as $p) {
+    $slug = $slugify->slugify($p['title']);
     $href=gila::make_url('shop','product',['id'=>$p['id'],'slug'=>$slug]);
     ?>
     <div class="product">

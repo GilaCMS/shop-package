@@ -79,6 +79,9 @@ class shopController extends controller
         
         $p = shop::getProductById($id);
         $categories = shop::getProductMeta($id,'category');
+        $slugify = new Cocur\Slugify\Slugify();
+        $slug = $slugify->slugify($p['title']);
+        view::$canonical = gila::make_url('shop','product',['id'=>$id,'slug'=>$slug]);
         view::set('p',$p);
         view::set('sku_id',@$product_id[1]?:'');
         view::set('categories',$categories);
@@ -171,18 +174,6 @@ class shopController extends controller
 
         view::set('order_id',$order_id);
         view::render('shop-placedorder.php','shop');
-    }
-
-
-    function proImagesAction(){
-        global $db;
-        $slugify = new Cocur\Slugify\Slugify();
-        $res = $db->get("SELECT id,title FROM shop_product WHERE stock>0");
-        foreach($res as $p){
-            $slug = 'assets/products/'.$slugify->slugify($p[1]).'0.jpg';
-            $db->query("UPDATE shop_product SET image=? WHERE id=?",[$slug,$p[0]]);
-        }
-        echo "ok";
     }
 
 }

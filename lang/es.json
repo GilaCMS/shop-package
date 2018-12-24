@@ -14,6 +14,10 @@
     "image4": "",
     "Stock": "",
     "Stock Keeping Unit": "",
+    "Attribute": "Atributo",
+    "Attributes": "Atributos",
+    "Option": "Opcion",
+    "Options": "Opciones",
     "Price": "Precio",
     "old_price": "",
     "new_price": "",
@@ -45,7 +49,9 @@
     "_add_pc": "Códico Postal",
     "City": "Ciudad",
     "Shipping Method": "Método de envio",
-    "Payment Method": "",
+    "Shipping Methods": "Métodos de envio",
+    "Payment Method": "Método de pago",
+    "Payment Methods": "Métodos de pago",
     "Checkout": "Checkout",
     "_pay_url_msg": "Tu carito de compras esta vacio. Si no hiciste el pago de ultimo pedido porfavor sigue ese enlace"
 }
