@@ -23,7 +23,7 @@ return [
             'display'=>'"<img style=\"max-width:100px;max-height:120px;\" src=\""+cv+"\">"'
         ],
         'product_id'=> [
-            'title'=>'Product',
+            'title'=>'Product','qtype'=>'INT NOT NULL DEFAULT 0','type'=>'key','table'=>'shop_product',
             'eval'=>'dv="<a target=\"_blank\" href=\"shop/product/"+cv+"\">"+cv+"</a>"',
             //'qcolumn'=>"(SELECT CONCAT(id,' ',title) from shop_product where id=product_id)"
         ],

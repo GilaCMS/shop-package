@@ -18,7 +18,7 @@ $table = [
     ],
     'fields'=> [
         'id'=> ['title'=>'#','edit'=>false],
-        'product_id'=> ['list'=>'false','edit'=>'false','qtype'=>'INT(11) NOT NULL'],
+        'product_id'=> ['list'=>'false','edit'=>'false','qtype'=>'INT(11) NOT NULL DEFAULT 0'],
         //'price'=> ['title'=>'Price','qtype'=>'VARCHAR(20) DEFAULT ""'],
         //'upc'=> ['qtype'=>'VARCHAR(30)'],
         'stock'=> [
