@@ -81,7 +81,7 @@ class shopController extends controller
         $categories = shop::getProductMeta($id,'category');
         $slugify = new Cocur\Slugify\Slugify();
         $slug = $slugify->slugify($p['title']);
-        view::$canonical = gila::make_url('shop','product',['id'=>$id,'slug'=>$slug]);
+        gila::canonical('shop/product/'.$id.'/'.$slug);
         view::set('p',$p);
         view::set('sku_id',@$product_id[1]?:'');
         view::set('categories',$categories);

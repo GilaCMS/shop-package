@@ -14,6 +14,10 @@
     "image4": "",
     "Stock": "",
     "Stock Keeping Unit": "",
+    "Attribute": "",
+    "Attributes": "",
+    "Option": "",
+    "Options": "",
     "Price": "Hind",
     "old_price": "",
     "new_price": "",
@@ -45,7 +49,9 @@
     "_add_pc": "Zip/Postal Code",
     "City": "Linn",
     "Shipping Method": "Tarneviis",
+    "Shipping Methods": "",
     "Payment Method": "",
+    "Payment Methods": "",
     "Checkout": "Kassa",
     "_pay_url_msg": "Your shopping cart is empty. If you didn't make the payment for your last order follow this link"
 }
