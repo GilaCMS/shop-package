@@ -55,9 +55,13 @@ $slugify = new Cocur\Slugify\Slugify();
             } else {
                 echo '<input name="add" value="'.$p['sku'][0]['id'].'" type="hidden"/>';
             }
+            if(count($p['sku'])==0) {
+                echo '<br><span class="alert warning">'.__('Without Stock').'</span>';
+            } else {
             ?>
             <input name="qty" class="g-input" value="1" type="number" min="1" max="<?=@$p['stock'][$sku_id]?:0?>" size="2" style="width:70px"/>
             <button href="" class="g-btn" style="background:#ff4545"><?=__('add_to_cart')?></button>
+        <?php } ?>
         </form>
         <hr><div class="product--description"><?=($p['description']?:'')?></div>
     </div>

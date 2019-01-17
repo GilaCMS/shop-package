@@ -60,8 +60,9 @@ class product
             $where .= " AND new_price!=\"\"";
         }
         
-        $totalpages = floor( (int)$db->value("SELECT COUNT(*) FROM shop_product $where;")/$ppp);
-        if($totalpages == 0) $totalpages = 1;
+        $res = $db->value("SELECT COUNT(*) FROM shop_product $where;");
+        $totalpages = (int)floor($res/$ppp);
+        if($res%$ppp>0) $totalpages++;
         $ql = "SELECT shop_product.id,image,title,(CASE WHEN new_price=\"\" THEN price ELSE new_price END) as price,price as old_price, (SELECT SUM(stock) FROM shop_sku WHERE product_id=shop_product.id GROUP BY product_id) as stock FROM shop_product $where ORDER BY id DESC $limit;";
         return [$db->get($ql),$totalpages];
     }
