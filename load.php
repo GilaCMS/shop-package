@@ -32,65 +32,65 @@ gila::content('shipping_method','shop/tables/shipping_method.php');
 
 
 gila::addList ('menuItemType', ['productcategory', [
-    "data"=>[
-        "type"=>"productcategory",
-        "id"=>1
-    ],
-    "template"=>function(){
-      $pages = shop\models\shop::getAllCategories();
-      $productcategoryOptions = "";
-      foreach ($pages as $p) {
-          $productcategoryOptions .= "<option value=\"{$p['id']}\">{$p['title']}</option>";
-      }
-      return "<select class=\"g-input\" v-model=\"model.id\">$productcategoryOptions</select>";
-    },
-    "response"=>function($mi){
-        global $db;
-        $ql="SELECT id,title FROM shop_category WHERE id=?;";
-        $res = $db->query($ql,@$mi['id']);
-        while($r=mysqli_fetch_array($res)){
-            $url = gila::url("shop/").$r[0].'/'.$r[1];
-            $name = $r[1];
-            return[$url,$name];
-        }
-        return false;
+  "data"=>[
+    "type"=>"productcategory",
+    "id"=>1
+  ],
+  "template"=>function(){
+    $pages = shop\models\shop::getAllCategories();
+    $productcategoryOptions = "";
+    foreach ($pages as $p) {
+      $productcategoryOptions .= "<option value=\"{$p['id']}\">{$p['title']}</option>";
     }
+    return "<select class=\"g-input\" v-model=\"model.id\">$productcategoryOptions</select>";
+  },
+  "response"=>function($mi){
+    global $db;
+    $ql="SELECT id,title FROM shop_category WHERE id=?;";
+    $res = $db->query($ql,@$mi['id']);
+    while($r=mysqli_fetch_array($res)){
+      $url = gila::url("shop/").$r[0].'/'.$r[1];
+      $name = $r[1];
+      return[$url,$name];
+    }
+    return false;
+  }
 ]]);
 
 gForm::addInputType("productcategory",function($name,$field,$ov) {
-    global $db;
-    $html = '<select class="g-input" name="'.$name.'">';
-    $res=$db->get('SELECT id,title FROM shop_category;');
-    $html .= '<option value=""'.(''==$ov?' selected':'').'>'.'[All]'.'</option>';
-    foreach($res as $r) {
-        $html .= '<option value="'.$r[0].'"'.($r[0]==$ov?' selected':'').'>'.$r[1].'</option>';
-    }
-    return $html . '</select>';
+  global $db;
+  $html = '<select class="g-input" name="'.$name.'">';
+  $res=$db->get('SELECT id,title FROM shop_category;');
+  $html .= '<option value=""'.(''==$ov?' selected':'').'>'.'[All]'.'</option>';
+  foreach($res as $r) {
+    $html .= '<option value="'.$r[0].'"'.($r[0]==$ov?' selected':'').'>'.$r[1].'</option>';
+  }
+  return $html . '</select>';
 });
 
 gila::contentInit('shop_sku', function(&$table) {
-    global $db;
-    foreach(shop\models\shop::attributes() as $attr) {
-        $options = [];
-        $opres = $db->gen("SELECT optionkey,optionvalue FROM shop_attr_option WHERE attribute_id={$attr[0]};");
-        foreach($opres as $op) {
-            $options[$op[0]] = $op[1];
-        }
-        $table['fields']['attr'.$attr[0]] = [
-            'title'=>$attr[1],
-            'type'=>'meta',
-            "mt"=>['shop_skumeta', 'sku_id', 'metavalue'],
-            'metatype'=>['metakey', 'attr'.$attr[0]],
-            'input-type'=>'select',
-            'options'=>$options
-        ];
+  global $db;
+  foreach(shop\models\shop::attributes() as $attr) {
+    $options = [];
+    $opres = $db->gen("SELECT optionkey,optionvalue FROM shop_attr_option WHERE attribute_id={$attr[0]};");
+    foreach($opres as $op) {
+      $options[$op[0]] = $op[1];
     }
+    $table['fields']['attr'.$attr[0]] = [
+      'title'=>$attr[1],
+      'type'=>'meta',
+      "mt"=>['shop_skumeta', 'sku_id', 'metavalue'],
+      'metatype'=>['metakey', 'attr'.$attr[0]],
+      'input-type'=>'select',
+      'options'=>$options
+    ];
+  }
 });
 
 gila::contentInit('shop_product', function(&$table) {
-    foreach(shop\models\shop::attributes() as $attr) {
-        $table['children']['shop_sku']['list'][] = 'attr'.$attr[0];
-    }
+  foreach(shop\models\shop::attributes() as $attr) {
+    $table['children']['shop_sku']['list'][] = 'attr'.$attr[0];
+  }
 });
 
 if(isset($_GET['ref'])) session::define(['shop_ref'=>$_GET['ref']]);
