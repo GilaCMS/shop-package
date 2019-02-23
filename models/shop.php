@@ -103,10 +103,10 @@ class shop
         $user_id = \session::user_id();
             $data = [
             $user_id,$args['receiver'],$args['address'],$args['reference'],$args['shipping_method'],
-            $args['pc'],$args['city'],$args['phone'],$args['email']
+            $args['pc'],$args['city'],$args['phone'],$args['email'], \session::key('shop_ref')
         ];
-        $query = "INSERT INTO `shop_order`(`user_id`,`add_receiver`,`add_address`,`add_reference`,`add_shipping_method`,`add_pc`,`add_city`,`add_phone`,`add_email`)
-        VALUES(?,?,?,?,?,?,?,?,?);";
+        $query = "INSERT INTO `shop_order`(`user_id`,`add_receiver`,`add_address`,`add_reference`,`add_shipping_method`,`add_pc`,`add_city`,`add_phone`,`add_email`,`ref`)
+        VALUES(?,?,?,?,?,?,?,?,?,?);";
 
         $db->query($query,$data);
 

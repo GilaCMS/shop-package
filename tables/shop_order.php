@@ -53,6 +53,7 @@ return [
             'edit'=>false,'create'=>false,
             'qcolumn'=>"''",'eval'=>"dv='<a href=\"shop/view_order/'+rv.id+'\"><i class=\"fa fa-shopping-cart\"></i></a>';"
         ],
+        'ref'=>['qtype'=>'varchar(20)',],
         //'paymentmethod_id'=> [],
         //'paymentcode'=> [],
         //'paid'=> ['type'=>'date'],

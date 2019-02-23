@@ -40,8 +40,13 @@ class shopController extends controller
     function listAction ()
     {
         global $db;
-        if(session::user_id()==0) router::cache(300,[shop::cartTotal()]);
         $c = router::get('category',1);
+        if($c && (int)$c==0) {
+          http_response_code(404);
+          view::render('404.php');
+          return;
+        }
+        if(session::user_id()==0) router::cache(72000,[shop::cartTotal()],[gila::mt('shop_product')]);
 
         $search = router::get('search');
         $page = router::get('page');
@@ -72,16 +77,16 @@ class shopController extends controller
 
     function productAction ()
     {
-        if(session::user_id()==0) router::cache(300,[shop::cartTotal()],[gila::mt('shop_product')]);
         $product_id = router::get('product_id',1);
         $product_id = explode('-',$product_id);
         $id = $product_id[0];
+        gila::canonical('shop/product/'.$id);
+        if(session::user_id()==0) router::cache(300,[shop::cartTotal()],[gila::mt('shop_product')]);
         
         $p = shop::getProductById($id);
         $categories = shop::getProductMeta($id,'category');
         $slugify = new Cocur\Slugify\Slugify();
         $slug = $slugify->slugify($p['title']);
-        gila::canonical('shop/product/'.$id.'/'.$slug);
         view::set('p',$p);
         view::set('sku_id',@$product_id[1]?:'');
         view::set('categories',$categories);

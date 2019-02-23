@@ -15,6 +15,7 @@ gila::onController('shop',function(){
     view::stylesheet('lib/font-awesome/css/font-awesome.min.css');
 });
 
+gila::widgets(['shop-category-list'=>'shop/widgets/shop-category-list']);
 gila::widgets(['category-list'=>'shop/widgets/category-list']);
 
 gila::$privilege['shop_op']="Operator of products and shop orders.";
@@ -30,18 +31,19 @@ gila::content('shipping_method','shop/tables/shipping_method.php');
 //gila::content('payment_method','shop/tables/payment_method.php');
 
 
-$pages = shop\models\shop::getAllCategories();
-$productcategoryOptions = "";
-foreach ($pages as $p) {
-    $productcategoryOptions .= "<option value=\"{$p['id']}\">{$p['title']}</option>";
-}
-
-menuItemTypes::addItemType ('productcategory', [
+gila::addList ('menuItemType', ['productcategory', [
     "data"=>[
         "type"=>"productcategory",
         "id"=>1
     ],
-    "template"=>"<select class=\"g-input\" v-model=\"model.id\">$productcategoryOptions</select>",
+    "template"=>function(){
+      $pages = shop\models\shop::getAllCategories();
+      $productcategoryOptions = "";
+      foreach ($pages as $p) {
+          $productcategoryOptions .= "<option value=\"{$p['id']}\">{$p['title']}</option>";
+      }
+      return "<select class=\"g-input\" v-model=\"model.id\">$productcategoryOptions</select>";
+    },
     "response"=>function($mi){
         global $db;
         $ql="SELECT id,title FROM shop_category WHERE id=?;";
@@ -53,7 +55,7 @@ menuItemTypes::addItemType ('productcategory', [
         }
         return false;
     }
-]);
+]]);
 
 gForm::addInputType("productcategory",function($name,$field,$ov) {
     global $db;
@@ -90,3 +92,5 @@ gila::contentInit('shop_product', function(&$table) {
         $table['children']['shop_sku']['list'][] = 'attr'.$attr[0];
     }
 });
+
+if(isset($_GET['ref'])) session::define(['shop_ref'=>$_GET['ref']]);
