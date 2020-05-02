@@ -5,6 +5,7 @@ return [
   'title'=> 'OrderItems',
   'lang'=> 'shop/lang/',
   'id'=>'id',
+  'tools'=>['add'],
   'commands'=>['edit','delete'],
   'permissions'=>[
     'create'=>['admin','shop_op'],

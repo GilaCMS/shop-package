@@ -19,6 +19,7 @@ $table = [
     'id'=> ['edit'=>false],
     'title'=> ['qtype'=>'VARCHAR(120)'],
     'description'=> ['qtype'=>'TEXT'],
+    'active'=> ['qtype'=>'TINYINT DEFAULT 1', 'type'=>'checkbox'],
     'parent_id'=> [
       'input-type'=>'select',
       'options'=>[0=>'-'],

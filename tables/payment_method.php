@@ -21,6 +21,12 @@ $table = [
     'description'=> ['title'=>'Desription','qtype'=>'VARCHAR(200)'],
     'cost'=> ['title'=>'Cost','type'=>'number','qtype'=>'DOUBLE DEFAULT 0'],
     'cost_f'=> ['title'=>'Cost Factor','type'=>'number','qtype'=>'DOUBLE DEFAULT 0'],
+    'gateway'=> [
+      'title'=>'Process',
+      'type'=>'select',
+      'qtype'=>'VARCHAR(30)',
+      'options'=> [''=>'None']
+    ],
     'pos'=> ['type'=>'number','qtype'=>'INT NOT NULL DEFAULT 0']
   ]
 ];

@@ -17,7 +17,7 @@
 
 <div class="wrapper" style="background:white">
   <h2><?=__('Cart')?></h2>
-  <form id="reviewCart" action="<?=gila::url("shop/cart")?>" method="post">
+  <form id="reviewCart" action="<?=Gila::url("shop/cart")?>" method="post">
   <table class="g-table bordered cart-table" >
     <tr>
       <th>
@@ -27,15 +27,15 @@
       <th><?=__("Total")?>
 <?php
 $total = 0;
-$currency = gila::option('shop.currency',' EUR');
+$currency = Gila::option('shop.currency',' EUR');
 
 foreach ($product as $kid=>$p) {
-  $imgsrc = view::thumb_sm($p['image']);
+  $imgsrc = View::thumb_sm($p['image']);
   $total += $p['qty']*$p['price'];
   $tdprice = $p['price'].'&nbsp;'.$currency;
 ?>
     <tr>
-      <td><a class="removebtn g-btn btn-white" href="<?=gila::make_url("shop","cart")."?remove=".$kid?>"><i class="fa fa-remove"></i></a>
+      <td><a class="removebtn g-btn btn-white" href="<?=Gila::make_url("shop","cart")."?remove=".$kid?>"><i class="fa fa-remove"></i></a>
       <td style="max-width:100px;"><img src="<?=$imgsrc?>" style="max-height:120px;vertical-align:middle" />
         <span><a href="shop/product/<?=$p['id']?>/<?=$slug?>"><?=$p['title']?></a></span>
       <td><?=$tdprice?>
@@ -56,12 +56,12 @@ foreach ($product as $kid=>$p) {
   </div>
   <div style="text-align:right">
     <br>
-    <a class="g-btn btn-white" href="<?=gila::url("shop")?>"><?=__("Continue Shopping")?></a>
-    <a class="g-btn btn-primary" href="<?=gila::url("shop/address")?>"><?=__("continue_to_checkout")?></a>
+    <a class="g-btn btn-white" href="<?=Gila::url("shop")?>"><?=__("Continue Shopping")?></a>
+    <a class="g-btn btn-primary" href="<?=Gila::url("shop/address")?>"><?=__("continue_to_checkout")?></a>
   </div>
 </form>
 </div>
 
 <script>
-history.pushState({},'cart',"<?=gila::url("shop/cart")?>");
+history.pushState({},'cart',"<?=Gila::url("shop/cart")?>");
 </script>

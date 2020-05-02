@@ -6,7 +6,6 @@ $table = [
   'pagination'=> 30,
   'tools'=>['add'],
   'commands'=>['edit','delete'],
-  'bulk_actions'=> true,
   'search-box'=> true,
   'lang'=> 'shop/lang/',
   'id'=>'id',
@@ -20,7 +19,6 @@ $table = [
     'id'=> ['title'=>'#','edit'=>false],
     'product_id'=> ['list'=>'false','edit'=>'false','qtype'=>'INT(11) NOT NULL DEFAULT 0'],
     //'price'=> ['title'=>'Price','qtype'=>'VARCHAR(20) DEFAULT ""'],
-    //'upc'=> ['qtype'=>'VARCHAR(30)'],
     'stock'=> [
       'default'=> 1,'title'=> 'Stock','qtype'=>'INT(4) DEFAULT 1'
     ]
