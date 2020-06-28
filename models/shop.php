@@ -1,5 +1,6 @@
 <?php
 namespace shop\models;
+use Session;
 
 class shop
 {
@@ -62,13 +63,13 @@ class shop
 
   static function cartUpdate() {
     global $db;
-    $cartId = \Session::key('cartId');
+    $cartId = Session::key('cartId');
     $_product = \Router::post('_product');
 
     if($cartId==null) {
-        $db->query("INSERT INTO shop_cart(`user_id`) VALUES(?);",[\Session::user_id()]);
+        $db->query("INSERT INTO shop_cart(`user_id`) VALUES(?);",[Session::user_id()]);
         $cartId = $db->insert_id;
-        \Session::key('cartId',$cartId);
+        Session::key('cartId',$cartId);
     }
 
     $added = \Router::get('add');
@@ -76,9 +77,9 @@ class shop
     if ($added!=null) {
       if(!is_null($cartId)) {
         if($res = $db->get("SELECT * FROM shop_cartitem WHERE sku_id=? AND cart_id=?",[$added, $cartId])) {
-            $db->query("UPDATE shop_cartitem SET qty=? WHERE sku_id=? AND cart_id=?",[$qty,$added, $cartId]);
+          $db->query("UPDATE shop_cartitem SET qty=? WHERE sku_id=? AND cart_id=?",[$qty,$added, $cartId]);
         } else {
-            $db->query("INSERT INTO shop_cartitem(qty,sku_id,cart_id) VALUES(?,?,?);",[$qty,$added, $cartId]);
+          $db->query("INSERT INTO shop_cartitem(qty,sku_id,cart_id) VALUES(?,?,?);",[$qty,$added, $cartId]);
         }
       }
     }
@@ -95,13 +96,13 @@ class shop
         $id=(int)$id;
         $qty=(int)$qty;
         if ($qty < 1) {
-            $db->query("DELETE FROM shop_cartitem WHERE sku_id=? AND cart_id=?",[$id, $cartId]);
+          $db->query("DELETE FROM shop_cartitem WHERE sku_id=? AND cart_id=?",[$id, $cartId]);
         } else {
-            if($res = $db->get("SELECT * FROM shop_cartitem WHERE sku_id=? AND cart_id=?",[$id, $cartId])) {
-                $db->query("UPDATE shop_cartitem SET qty=? WHERE sku_id=? AND cart_id=?",[$qty,$id, $cartId]);
-            } else {
-                $db->query("INSERT INTO shop_cartitem(qty,sku_id,cart_id) VALUES(?,?,?);",[$qty,$id, $cartId]);
-            }
+          if($res = $db->get("SELECT * FROM shop_cartitem WHERE sku_id=? AND cart_id=?",[$id, $cartId])) {
+            $db->query("UPDATE shop_cartitem SET qty=? WHERE sku_id=? AND cart_id=?",[$qty,$id, $cartId]);
+          } else {
+            $db->query("INSERT INTO shop_cartitem(qty,sku_id,cart_id) VALUES(?,?,?);",[$qty,$id, $cartId]);
+          }
         }
       }
     }
@@ -114,7 +115,7 @@ class shop
   static function updateCartItem($cartId, $productId, $qty)
   {
     global $db;
-    $cartId = \Session::key('cartId');
+    $cartId = Session::key('cartId');
     if ($qty < 1) {
         $db->query("DELETE FROM shop_cartitem WHERE sku_id=? AND cart_id=?", [$productId, $cartId]);
     } else {
@@ -128,7 +129,7 @@ class shop
 
   static function getCart() {
       global $db;
-      $cartId = \Session::key('cartId');
+      $cartId = Session::key('cartId');
       $list = $db->get("SELECT sku_id,qty FROM shop_cartitem WHERE cart_id=?;", $cartId);
       $cart = [];
       foreach($list as $r) $cart[$r[0]] = $r[1];
@@ -147,10 +148,10 @@ class shop
   {
     global $db;
     $cart = self::getCart();
-    $user_id = \Session::user_id();
+    $user_id = Session::userId();
       $data = [
       $user_id,$args['receiver'],$args['address'],$args['reference'],$args['shipping_method'],
-      $args['pc'],$args['city'],$args['phone'],$args['email'], \Session::key('shop_ref')
+      $args['pc'],$args['city'],$args['phone'],$args['email'], Session::key('shop_ref')
     ];
     $query = "INSERT INTO `shop_order`(`user_id`,`add_receiver`,`add_address`,`add_reference`,`add_shipping_method`,`add_pc`,`add_city`,`add_phone`,`add_email`,`ref`)
     VALUES(?,?,?,?,?,?,?,?,?,?);";
@@ -196,7 +197,7 @@ class shop
       }
     }
 
-    \Session::unsetKey('cartId');
+    Session::unsetKey('cartId');
     return $cart_id;
   }
 

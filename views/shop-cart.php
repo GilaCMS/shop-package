@@ -28,16 +28,16 @@
 <?php
 $total = 0;
 $currency = Gila::option('shop.currency',' EUR');
-
 foreach ($product as $kid=>$p) {
   $imgsrc = View::thumb_sm($p['image']);
   $total += $p['qty']*$p['price'];
   $tdprice = $p['price'].'&nbsp;'.$currency;
+  $p['url'] = 'shop/product/'.$p['id'].'-'.$kid;
 ?>
     <tr>
       <td><a class="removebtn g-btn btn-white" href="<?=Gila::make_url("shop","cart")."?remove=".$kid?>"><i class="fa fa-remove"></i></a>
       <td style="max-width:100px;"><img src="<?=$imgsrc?>" style="max-height:120px;vertical-align:middle" />
-        <span><a href="shop/product/<?=$p['id']?>/<?=$slug?>"><?=$p['title']?></a></span>
+        <span><a href="<?=$p['url']?>"><?=$p['title']?></a></span>
       <td><?=$tdprice?>
       <td>
         <span>
@@ -63,5 +63,5 @@ foreach ($product as $kid=>$p) {
 </div>
 
 <script>
-history.pushState({},'cart',"<?=Gila::url("shop/cart")?>");
+  history.pushState({},'cart',"<?=Gila::url("shop/cart")?>");
 </script>

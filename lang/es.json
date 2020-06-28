@@ -53,5 +53,6 @@
     "Payment Method": "Metodo de pago",
     "Payment Methods": "Métodos de pago",
     "Checkout": "Checkout",
-    "_pay_url_msg": "Tu carrito de compras esta vacio. Si no hiciste el pago de ultimo pedido porfavor sigue ese enlace"
+    "_pay_url_msg": "Tu carrito de compras esta vacio. Si no hiciste el pago de ultimo pedido porfavor sigue ese enlace",
+    "Quantity": "Quantidad"
 }

@@ -1,6 +1,6 @@
 <?php
 
-Gila::controller('shop','shop/controllers/shopController','shopController');
+Gila::controller('shop','shop/controllers/shopController');
 Gila::addLang('shop/lang/');
 Gila::amenu(['shop'=>[__('Shop'),"#",'icon'=>'shopping-cart']]);
 Gila::amenu_child('shop',[__('Products'),"admin/content/shop_product",'icon'=>'codepen']);
@@ -97,3 +97,23 @@ Gila::contentInit('shop_product', function(&$table) {
 });
 
 if(isset($_GET['ref'])) session::define(['shop_ref'=>$_GET['ref']]);
+
+Router::action('cm', 'setDiscount', function($table) {
+  global $db;
+  $ids = explode(',', $_GET['id']);
+  $discount = (int)$_POST['discount'];
+  if($table != 'shop_product') return;
+  if(is_nan($discount)) return;
+  if($discount>1) $discount = $discount/100;
+  $product = new Table($table);
+  if(!$product->can('update')) {
+    @http_response_code(403);
+    return;
+  }
+
+  foreach($ids as $id) {
+    $q = "UPDATE $table SET new_price=price-price*? WHERE {$product->id()}=?;";
+    $res = $db->query($q, [$discount, $id]);
+  }
+  echo '{"success":true,"message":"Discount set"}';
+});

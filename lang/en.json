@@ -53,5 +53,6 @@
     "Payment Method": "Payment Method",
     "Payment Methods": "Payment Methods",
     "Checkout": "Checkout",
-    "_pay_url_msg": "Your shopping cart is empty. If you didn't make the payment for your last order follow this link"
+    "_pay_url_msg": "Your shopping cart is empty. If you didn't make the payment for your last order follow this link",
+    "Quantity": "Quantity"
 }

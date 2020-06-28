@@ -5,4 +5,4 @@ echo ': '.$order_id.'<br><br>';
 
 echo __('_shop_detail_email_').'<br><br>';
 
-echo '<a class="g-btn primary btn-primary" href="'.gila::make_url('shop').'">'.__('Continue Shopping').'</a>';
+echo '<a class="g-btn primary btn-primary" href="'.Gila::make_url('shop').'">'.__('Continue Shopping').'</a>';

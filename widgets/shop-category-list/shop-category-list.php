@@ -24,16 +24,15 @@
 <ul>
 <?php
 global $db,$g;
-$slugify = new Cocur\Slugify\Slugify();
 
 if(isset($g->category)) {
   $parent_id = $db->value("SELECT parent_id FROM shop_category WHERE id = '{$g->category}';");
-  if($g->category!=0) echo '<li><a href="'.gila::make_url('shop','products').'"><i class="fa fa-chevron-left"></i> '.__('_all_categories').'</a></li>';
+  if($g->category!=0) echo '<li><a href="'.gila::url('shop/products').'"><i class="fa fa-chevron-left"></i> '.__('_all_categories').'</a></li>';
   if($parent_id) {
     $catname = $db->value("SELECT title FROM shop_category WHERE id = '{$parent_id}';");
     echo '<li><a href="'.gila::make_url('shop/','',[
       'category'=>$parent_id,
-      'slug'=>$slugify->slugify($catname)
+      'slug'=>Slugify::text($catname)
       ]).'"><i class="fa fa-chevron-left"></i> '.$catname.'</a></li>';
   }
 
@@ -44,9 +43,9 @@ if(isset($g->category)) {
   if(is_array($list)) {
     echo '<ul>';
     foreach($list as $c) {
-      echo '<li> <a href="'.gila::make_url('shop','',[
+      echo '<li> <a href="'.Gila::make_url('shop','',[
         'category'=>$c[0],
-        'slug'=>$slugify->slugify($c[1])
+        'slug'=>Slugify::text($c[1])
         ]).'">'.$c[1].' <i class="fa fa-chevron-right"></i></a>';
     }
     echo '</ul>';

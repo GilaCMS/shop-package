@@ -1,2 +1,2 @@
 <?php
-view::renderFile('header.php');
+View::renderFile('header.php');

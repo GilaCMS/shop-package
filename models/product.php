@@ -30,14 +30,14 @@ class product
     return $p;
   }
 
-  static function getMeta($id)
+  static function getMeta($id, $meta)
   {
     global $db;
     return $db->getList("SELECT metavalue FROM shop_productmeta WHERE product_id=? AND metakey=?;",[$id,$meta]);
 
   }
 
-  static function get($args,$ppp = 16)
+  static function get($args, $ppp = 12)
   {
     global $db;
     $page = $args['page']?:1;
@@ -64,6 +64,6 @@ class product
     $totalpages = (int)floor($res/$ppp);
     if($res%$ppp>0) $totalpages++;
     $ql = "SELECT shop_product.id,image,title,(CASE WHEN new_price=\"\" THEN price ELSE new_price END) as price,price as old_price, (SELECT SUM(stock) FROM shop_sku WHERE product_id=shop_product.id GROUP BY product_id) as stock FROM shop_product $where ORDER BY id DESC $limit;";
-    return [$db->get($ql),$totalpages];
+    return [$db->get($ql), $totalpages];
   }
 }

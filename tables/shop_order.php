@@ -33,6 +33,7 @@ return [
     'status'=> [
       'input-type'=>'select',
       'options'=> ['new'=>'New','paid'=>'Paid','process'=>'Process','delivered'=>'Delivered','canceled'=>'Canceled'],
+      'option_colors'=> ['new'=>'lightblue','paid'=>'blue','process'=>'darkorange','delivered'=>'green','canceled'=>'grey'],
       'qtype'=>'VARCHAR(20)'
     ],
     'add_city'=> ['title'=>'City','qtype'=>'VARCHAR(80)'],

@@ -1,9 +1,9 @@
 <?php
 
-use core\models\page as page;
+use core\models\Page;
 use shop\models\shop as shop;
 
-class shopController extends controller
+class shopController extends Controller
 {
   private $cartId;
   private $addlist;
@@ -24,7 +24,7 @@ class shopController extends controller
 
   function indexAction ()
   {
-    if ($r = page::getBySlug(Router::get('page',1))) {
+    if ($r = Page::getBySlug(Router::get('page',1))) {
       View::set('title',$r['title']);
       View::set('text',$r['page']);
       View::render('page.php');
@@ -36,6 +36,10 @@ class shopController extends controller
     View::renderAdmin('page.php');
   }
 
+  function productsAction () {
+    $this->listAction();
+  }
+
   function listAction ()
   {
     global $db;
@@ -45,7 +49,9 @@ class shopController extends controller
       View::render('404.php');
       return;
     }
-    if(Session::user_id()==0) Router::cache(72000,[shop::cartTotal()],[Gila::mt('shop_product')]);
+    if(Session::userId()===0) {
+      //Router::cache(72000,[shop::cartTotal()],[Gila::mt('shop_product')]);
+    }
 
     $search = Router::get('search');
     $page = Router::get('page');
@@ -80,12 +86,10 @@ class shopController extends controller
     $product_id = explode('-',$product_id);
     $id = $product_id[0];
     Gila::canonical('shop/product/'.$id);
-    if(Session::user_id()==0) Router::cache(300,[shop::cartTotal()],[Gila::mt('shop_product')]);
     
     $p = shop::getProductById($id);
     $categories = shop::getProductMeta($id,'category');
-    $slugify = new Cocur\Slugify\Slugify();
-    $slug = $slugify->slugify($p['title']);
+    $slug = Slugify::text($p['title']);
     View::set('p',$p);
     View::set('sku_id',@$product_id[1]?:'');
     View::set('categories',$categories);
@@ -117,8 +121,8 @@ class shopController extends controller
   {
     global $db;
     shop::cartUpdate();
-    View::set('cart_items',shop::cartTotal());
-    View::set('product',shop::cartItems());
+    View::set('cart_items', shop::cartTotal());
+    View::set('product', shop::cartItems());
     View::render('shop-cart.php','shop');
   }
 
@@ -131,7 +135,7 @@ class shopController extends controller
 
     foreach($this->addlist as $d) View::set('add_'.$d, Session::key('delivery_'.$d) );
     View::set('shipping_methods', shop::shipping_methods());
-    View::set('product',shop::cartItems());
+    View::set('product', shop::cartItems());
     View::render('shop-address.php','shop');
   }
 
@@ -147,7 +151,7 @@ class shopController extends controller
       return;
     }
 
-    View::set('product',shop::cartItems());
+    View::set('product', shop::cartItems());
 
     foreach($this->addlist as $d) View::set('add_'.$d, Session::key('delivery_'.$d) );
 
@@ -172,7 +176,10 @@ class shopController extends controller
     }
     $data['payment_method'] = @$_POST['payment_method']?:0;
  
-    $order_id = shop::placeOrder($data, $this->cartId);
+    $order_id = Event::get('shop::placeOrder', null, ['data'=>$data, 'cartId'=>$order_id]);
+    if($order_id == null) {
+      $order_id = shop::placeOrder($data, $this->cartId);
+    }
 
     if(Event::fire('shop::pay',$order_id)) return;
 
@@ -183,7 +190,7 @@ class shopController extends controller
     }
 
     View::set('order_id',$order_id);
-    View::render('shop-placedorder.php','shop');
+    View::render('shop-placedorder.php', 'shop');
   }
 
 }

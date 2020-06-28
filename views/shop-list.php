@@ -1,22 +1,20 @@
-<?php view::css("src/shop/assets/shop.css");?>
+<?php View::css("shop/shop.css")?>
 <div class="shop-list">
 <div class="wrapper sidebar" style="grid-area:sidebar">
-  <?php view::widget_area('sidebar')?>
+  <?php View::widgetArea('sidebar')?>
 </div>
 <div class="products-list" style="grid-area:productlist">
-<script src="src/core/assets/lazyImgLoad.js" async></script>
+<?=View::script("core/lazyImgLoad.js")?>
 
 <?php
-$slugify = new Cocur\Slugify\Slugify();
 
 foreach ($products as $p) {
-  $slug = $slugify->slugify($p['title']);
-  $href=gila::make_url('shop','product',['id'=>$p['id'],'slug'=>$slug]);
+  $href = Gila::make_url('shop','product',['id'=>$p['id'],'slug'=>$slug]);
   ?>
   <div class="product">
     <div class="product-body">
       <a href="<?=$href?>" class="thumb">
-        <img data-src="<?=view::thumb_sm($p['image'])?>" class="lazy img-responsive" alt="Image">
+        <img data-src="<?=View::thumb_sm($p['image'])?>" class="lazy img-responsive" alt="Image">
       </a>
       <div class="product-title"><?=$p['title']?></div>
       <div class="product-price"><?=$p['price']?> <?=gila::option('shop.currency')?></div>
@@ -37,11 +35,10 @@ foreach ($products as $p) {
       <li class="<?=$active?>">
         <?php
         if($category) {
-          $slugify = new Cocur\Slugify\Slugify();
-          $cat = $category.'/'.$slugify->slugify($category_name);
-        } else $cat = '';
+          $cat = $category.'/'.Slugify::text($category_name);
+        } else $cat = '/products';
         ?>
-        <a href="<?=gila::url('shop').$cat?>?page=<?=$pl?>"><?=$pl?></a>
+        <a href="<?=Gila::url('shop').$cat?>?page=<?=$pl?>"><?=$pl?></a>
       </li>
       <?php } ?>
     </ul>
